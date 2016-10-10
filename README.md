@@ -7,6 +7,7 @@ Autoxls
 
 * [Características principales](#markdown-header-caracteriticas-principales)
 * [Antes de empezar](#markdown-header-antes-de-empezar)
+* [Primeros pasos](#markdown-header-primeros-pasos)
 * [Ejecución](#markdown-header-ejecucion)
 	* [Niveles de log](#markdown-header-niveles-de-log)
 	* [Definiciones de keywords](#markdown-header-definiciones-de-keywords)
@@ -75,7 +76,14 @@ Construcción de la cadena Dsn según datasource
 	* SQL Server: "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=<<database>>;UID=<<usuario>>;PWD=<<password>>" 
 
 
-# Ejemplo básico de una definición de exportación
+Primeros pasos
+==============
+
+Para entender el funcionamiento de esta herramienta, vamos a imaginar el siguiente escenario: Tenemos
+un conjunto de servidores SQL Server y deseamos de forma automatizada generar un informe a una determinada
+hora de los procesos corriendo en los mismos. Para esto contamos con un clásico stored procedure llamado
+`sp_who2`, usando `autoxls` resulta muy fácil hacer esto. El primer paso es generar la definición del
+proceso de exportación de datos, esto lo haremos escribiendo un archivo JSON similar a este:
 
 ```javascript
 {
@@ -145,6 +153,7 @@ Construcción de la cadena Dsn según datasource
 	}
 }
 ```
+
 
 Ejecución
 =========
