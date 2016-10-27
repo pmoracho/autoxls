@@ -1,7 +1,9 @@
 Autoxls
 =======
 
-`autoxls` es una herramienta de linea de comandos para automatizar las generación de archivos Excel 2003 a partir de resultados obtenidos de consultas a bases de datos.
+`autoxls` es una herramienta de linea de comandos para automatizar las
+generación de archivos Excel 2003 a partir de resultados obtenidos de consultas
+a bases de datos.
 
 # Contenidos
 
@@ -21,7 +23,8 @@ Características principales
 * Múltiples consultas/querys/Stored procedures
 * Capacidad de procesar múltiples recordsets a partir de una única consulta
 * Generáción automatizada de uno o más archivos Excel por ejecución
-* Definición dinámica de nombres y textos a partir de "keywords" definidas en la invocación o por un archivo externo de keywords, puede aplicar:
+* Definición dinámica de nombres y textos a partir de "keywords" definidas en
+  la invocación o por un archivo externo de keywords, puede aplicar:
 	* Nombre del archivo
 	* Nombres de las solapas
 	* Textos en la planilla
@@ -43,28 +46,47 @@ Características principales
 Antes de empezar
 ================
 
-Para comenzar, antes de probar la ejecución de esta herramienta, es necesario escribir un archivo de definición de la exportación a realizar. Este no es más que un archivo en formato JSON, que describe datos, archivos, planillas y formatos de la exportación. Nota: para validar el formato del mismo: [JSON Editor Online](http://www.jsoneditoronline.org/). 
+Para comenzar, antes de probar la ejecución de esta herramienta, es necesario
+escribir un archivo de definición de la exportación a realizar. Este no es más
+que un archivo en formato JSON, que describe datos, archivos, planillas y
+formatos de la exportación. Nota: para validar el formato del mismo: [JSON
+Editor Online](http://www.jsoneditoronline.org/). 
 
 Este archivo definirá los siguientes elementos:
 
 * **datasources**: uno o más conexiones a bases de datos, con las siguientes propiedades:
 
-	* **data\_connect\_str**: que establece una conexión a un servidor de datos.
-	* **data\_query**: que define la correspondiente consulta. Podrá ser una "query" común o directamente la ejecución de un stored procedure.
+	* **data\_connect\_str**: que establece una conexión a un servidor de
+	  datos.
+	* **data\_query**: que define la correspondiente consulta. Podrá ser una
+	  "query" común o directamente la ejecución de un stored procedure.
 	* **data\_query\_file**: Archivo dónde encontramos la consulta SQL.
 	
 * **files**:  Que define la generación de uno o más archivos Excel. Por cada archivo se podrá definir una o más:
 	
 	* **sheets**: Es decir, solapas de la planilla, por cada una de estas se pueden definir varios objetos Excel:
 		
-		* **text**: Texto estático, normalmente titulos, se define la celda, el texto y el formato.
-		* **text_rows**: Define una lista de textos estáticos, que se escriben a partir de una posición en la fila, una celda a continuación de la otra con un determinado formato
-		* **text_formated**: Una especialización de los objetos de texto, que permite aplicar formatos sobre datos recibidos en las __keywords__.
-		* **datagrid**: Una grilla de datos, la salida final de los datos recuperados.
+		* **text**: Texto estático, normalmente titulos, se define la celda, el
+		  texto y el formato.
+		* **text_rows**: Define una lista de textos estáticos, que se escriben
+		  a partir de una posición en la fila, una celda a continuación de la
+		  otra con un determinado formato
+		* **text_formated**: Una especialización de los objetos de texto, que
+		  permite aplicar formatos sobre datos recibidos en las __keywords__.
+		* **datagrid**: Una grilla de datos, la salida final de los datos
+		  recuperados.
 		* **formulas**: Formulas de escel
 		* **table**: Una tabla Excel. 
 
-* **formats**: Cada objetos se "dibuja" con distintos formatos, estos se definene a nivel general. Hay dos tipos, los básicos o "primitivos", por ejemplo: `"right": { "align" : "right" }` y los compuestos que se definen como la suma de atributos primitivos, por ejemplo: `"encabezado": [ "default_font", "bold", "color", { "bottom" : 1, "bottom_color" : "#0000FF", "text_wrap": "True", "valign": "top" }]`, en este ejemplo "default_font", "bold", "color" son formatos definidos previamente y  { "bottom" : 1, "bottom_color" : "#0000FF", "text_wrap": "True", "valign": "top" } es un primitivo definido en el momento.
+* **formats**: Cada objetos se "dibuja" con distintos formatos, estos se
+  definene a nivel general. Hay dos tipos, los básicos o "primitivos", por
+  ejemplo: `"right": { "align" : "right" }` y los compuestos que se definen
+  como la suma de atributos primitivos, por ejemplo: `"encabezado": [
+  "default_font", "bold", "color", { "bottom" : 1, "bottom_color" : "#0000FF",
+  "text_wrap": "True", "valign": "top" }]`, en este ejemplo "default_font",
+  "bold", "color" son formatos definidos previamente y  { "bottom" : 1,
+  "bottom_color" : "#0000FF", "text_wrap": "True", "valign": "top" } es un
+  primitivo definido en el momento.
 
 * **conditional**: Formatos condicionales
 
@@ -79,11 +101,13 @@ Construcción de la cadena Dsn según datasource
 Primeros pasos
 ==============
 
-Para entender el funcionamiento de esta herramienta, vamos a imaginar el siguiente escenario: Tenemos
-un conjunto de servidores SQL Server y deseamos de forma automatizada generar un informe a una determinada
-hora de los procesos corriendo en los mismos. Para esto contamos con un clásico stored procedure llamado
-`sp_who2`, usando `autoxls` resulta muy fácil hacer esto. El primer paso es generar la definición del
-proceso de exportación de datos, esto lo haremos escribiendo un archivo JSON similar a este:
+Para entender el funcionamiento de esta herramienta, vamos a imaginar el
+siguiente escenario: Tenemos un conjunto de servidores SQL Server y deseamos de
+forma automatizada generar un informe a una determinada hora de los procesos
+corriendo en los mismos. Para esto contamos con un clásico stored procedure
+llamado `sp_who2`, usando `autoxls` resulta muy fácil hacer esto. El primer
+paso es generar la definición del proceso de exportación de datos, esto lo
+haremos escribiendo un archivo JSON similar a este:
 
 ```javascript
 {
@@ -207,15 +231,28 @@ CRITICAL 	| Errores serios, el programa no puede continuar
 Notas para Desarrollo
 =====================
 
-Para desarrollo de la herramienta es necesario, además de contar con el entorno de desarrollo python mencionado [aquí](../README.md), tener en cuenta la siguiente información:
+Para desarrollo de la herramienta es necesario, además de contar con el entorno
+de desarrollo python mencionado [aquí](../README.md), tener en cuenta la
+siguiente información:
 
 * Crear el entorno de desarrollo
-	* Crear el entorno virtual, de esta manera aislamos las librerías que necesitaremos sin "ensuciar" el entorno Python base, por ejemplo: `virtualenv ../venvs/autoxls
-	* Activar el entorno, antes que nada hay que activar el entorno, para que los paths a Python apunten a las nuevas carpetas (Usando bash):  `source  ../venvs/autoxls/Scripts/activate`, en Windows: `../venvs/autoxls/Scripts/activate.bat`
+	* Crear el entorno virtual, de esta manera aislamos las librerías que
+	  necesitaremos sin "ensuciar" el entorno Python base, por ejemplo:
+	  `virtualenv ../venvs/autoxls
+	* Activar el entorno, antes que nada hay que activar el entorno, para que
+	  los paths a Python apunten a las nuevas carpetas (Usando bash):  `source
+	  ../venvs/autoxls/Scripts/activate`, en Windows:
+	  `../venvs/autoxls/Scripts/activate.bat`
 	* Instalar librerías adicionales. 
-		* [XlsxWriter](https://github.com/jmcnamara/XlsxWriter): Estupenda libreria para generar archivos Excel.
-		* [pypyodbc](https://github.com/jiangwen365/pypyodbc) para la conectividada con las bases de datos: `pip install pypyodbc`
-		* [pyinstaller](https://github.com/pyinstaller/pyinstaller/) solo si el objetivo final es construir un ejecutable binario, esta herramienta es bastante sencilla y rápida si bien es mucho más poderosa [Cx_freeze](https://bitbucket.org/anthony_tuininga/cx_freeze), para instalar: `pip install pyinstaller`
+		* [XlsxWriter](https://github.com/jmcnamara/XlsxWriter): Estupenda
+		  libreria para generar archivos Excel.
+		* [pypyodbc](https://github.com/jiangwen365/pypyodbc) para la
+		  conectividada con las bases de datos: `pip install pypyodbc`
+		* [pyinstaller](https://github.com/pyinstaller/pyinstaller/) solo si el
+		  objetivo final es construir un ejecutable binario, esta herramienta
+		  es bastante sencilla y rápida si bien es mucho más poderosa
+		  [Cx_freeze](https://bitbucket.org/anthony_tuininga/cx_freeze), para
+		  instalar: `pip install pyinstaller`
 
 
 * Probar el autoxls

@@ -1,4 +1,3 @@
-"""
 # -*- coding: utf-8 -*-
 # Copyright (c) 20014 Patricio Moracho <pmoracho@gmail.com>
 #
@@ -17,13 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-"""
 
-"""
 ##################################################################################################################################################
-## Imports
+# Imports
 ##################################################################################################################################################
-"""
 try:
 	import sys
 	import json
@@ -50,15 +46,15 @@ except ImportError as err:
 	print("No fue posible importar el modulo: %s" % modulename)
 	sys.exit(-1)
 
+
 def sha256(string):
 	hash_object = hashlib.sha256(string.encode())
 	return hash_object.hexdigest()
-	
-"""
+
 ##################################################################################################################################################
-## Clases
+# Clases
 ##################################################################################################################################################
-"""
+
 
 class Engine():
 	"""Engine."""
@@ -93,7 +89,7 @@ class Engine():
 					raise ValueError("Faltan definir las siguientes keywords: %s" % keys_faltantes)
 
 				# Carga de los Formatos
-				self.formatos = Formatos(self.json_data.get("formats",{}))
+				self.formatos = Formatos(self.json_data.get("formats", {}))
 
 				# Carga de los Formatos condicionales
 				self.conditionals = self.json_data.get("conditional")
@@ -125,7 +121,6 @@ class Engine():
 					ds = datasource(self.get_string_from_template(properties["data_connect_str"]), query)
 					self.datasources[each] = ds
 
-
 		except IOError as inst:
 			self.error(u"Ocurrio el error %s al intentar abrir el archivo de entrada '%s'" % (inst.args, self.inputfile))
 			sys.exit(-1)
@@ -135,23 +130,23 @@ class Engine():
 
 	def _read_utf8ascii_file_as_uni(self, fname):
 		"""Intenta leer un archivo como utf8 sino lo considera un ascii estándar."""
-		
+
 		try:
 			self._inputfile_encoding = 'utf8'
-			with codecs.open(fname,'r',encoding='utf8') as f:
+			with codecs.open(fname, 'r', encoding='utf8') as f:
 				return f.read()
 
 		except UnicodeError:
 
 			self._inputfile_encoding = 'iso-8859-1'
-			with codecs.open(fname,'r',encoding='iso-8859-1') as f:
+			with codecs.open(fname, 'r', encoding='iso-8859-1') as f:
 				return f.read()
 
-	def info(self,msg):
+	def info(self, msg):
 		if self.logging:
 			self.logging.info(msg)
 
-	def error(self,msg):
+	def error(self, msg):
 		if self.logging:
 			self.logging.error(msg)
 
@@ -161,18 +156,17 @@ class Engine():
 		Args:
 			outputpath:	(string) path de output de los archivos Excel a generar
 			startexcel: (bool) True si se desea inciar el Excel y abrir cada uno de los aarchivos generados
-		
+
 		"""
 		for file in self.json_data["files"]:
 			if file.get("enabled", True):
-				filename = self.generate_file(file, outputpath )
+				filename = self.generate_file(file, outputpath)
 				if startexcel:
 					self.info("Intentando abrir: {0}".format(filename))
 					try:
 						os.startfile(filename)
 					except FileNotFoundError as e:
 						self.error(u"Ocurrio el error %s al intentar abrir el archivo '%s'" % (str(e), filename))
-
 
 	def get_string_from_template(self, text):
 		"""get_string_from_template: Reemplazar los "keywords" por valores reales."""
@@ -188,13 +182,13 @@ class Engine():
 			outputpath:	(string) Carpeta donde se salvará el archivo Excel
 
 		Returns:
-			
+
 			(string) path y nombre real del archivo generado
 
 		"""
 
 		realfilename = os.path.join(outputpath, self._normalize_filename(self.get_string_from_template(def_file["filename"])))
-		
+
 		self.info("Generando {0}...".format(realfilename))
 
 		self.active_workbook = xlsxwriter.Workbook(realfilename, {'strings_to_numbers': True})
@@ -220,10 +214,10 @@ class Engine():
 
 		Args:
 			sheet: 	(dict) Definición de la solapa a generar
-		
+
 		"""
 
-		sheet_name = self.get_string_from_template(sheet.get("name","Hoja"))[:31]
+		sheet_name = self.get_string_from_template(sheet.get("name", "Hoja"))[:31]
 		self.info("Solapa: {0}".format(sheet_name))
 		self.active_worksheet = self.active_workbook.add_worksheet(sheet_name)
 		self.active_worksheet.set_default_row(sheet.get("default_row_height", 11.5))
@@ -244,28 +238,29 @@ class Engine():
 
 		for o in objects.get("datagrid", []):
 			self.insert_datagrid(o)
-		
+
 		for o in objects.get("formulas", []):
 			self.insert_formula(o)
 
 	def cast_text(self, text, type):
 		"""cast_text: Castea un string a alguno de los tipos básicos."""
-		casters = {	
+		casters = {
 			"datetime"	: "datetime.datetime.strptime('{0}', '%Y%m%d').date()".format(text),
 			"float"		: "float({0})".format(text),
 			"int"		: "int({0})".format(text)
 	  	}
+
 		value = None
 		try:
-			value =  eval(casters[type])
-		except (TypeError, ValueError) as e:
+			value = eval(casters[type])
+		except (TypeError, ValueError):
 			# Imposible castear del dato
-			pass 
+			pass
 		return value
 
 	def insert_text_formated(self, objeto):
 		"""insert_text: Inserta un texto formateado."""
-		values 	= [self.cast_text(self.get_string_from_template(v),t) for v,t in objeto.get("values", [])]
+		values 	= [self.cast_text(self.get_string_from_template(v), t) for v, t in objeto.get("values", [])]
 		at 		= objeto.get("at")
 		texto 	= objeto.get("text", "").format(*values)
 		format 	= objeto.get("format")
@@ -289,17 +284,16 @@ class Engine():
 
 	def insert_text_rows(self, objeto):
 		"""insert_text_rows: Inserta filas con texto."""
-		row,col = xl_cell_to_rowcol(objeto.get("at"))
-		textos 	= objeto.get("text", None)
-		format 	= self.formatos.get(objeto.get("format"))
+		row, col 	= xl_cell_to_rowcol(objeto.get("at"))
+		textos 		= objeto.get("text", None)
+		format 		= self.formatos.get(objeto.get("format"))
 
-		for i,t in enumerate([self.get_string_from_template(t) for t in textos],0):
+		for i, t in enumerate([self.get_string_from_template(t) for t in textos], 0):
 			at = xl_range(row, col + i, row, col + i)
 			if t:
 				self.active_worksheet.write(at, t, format)
 			else:
 				self.active_worksheet.write_blank(at, '', format)
-
 
 	def insert_text(self, objeto):
 		"""insert_text: Inserta un texto."""
@@ -319,17 +313,17 @@ class Engine():
 
 	def insert_datagrid(self, objeto):
 		"""insert_datagrid: Inserta una grilla.
-		
+
 		Args:
 			objeto: 	(dict) Definición de la grilla
-		
+
 		"""
 
 		source = objeto["source"]
 		ds = self.datasources.get(source["datasource"])
 		if ds is not None:
 
-			rsnum = source.get("recordset_index",1) - 1
+			rsnum = source.get("recordset_index", 1) - 1
 			data = ds.newdata(rsnum)
 			"""
 			HEADER
@@ -337,7 +331,7 @@ class Engine():
 			self.info("Creando encabezados...")
 			fmt_header = self.formatos.get(objeto.get("header_format"))
 			fmt_header_spec = self.formatos.get_spec(objeto.get("header_format"))
-			header_row, header_col = xl_cell_to_rowcol(objeto.get("at","A1"))
+			header_row, header_col = xl_cell_to_rowcol(objeto.get("at", "A1"))
 
 			col = header_col
 			row = header_row
@@ -349,7 +343,7 @@ class Engine():
 			if header != []:
 
 				for index, titulo, width, format, conditional in header:
-			
+
 					# Combino el formato de la columna con el del header para aplicar solo sobre el header
 					newfmt_def.update(self.formatos.get_spec(format))
 					newfmt = self.formatos.new(sha256(str(newfmt_def)), newfmt_def)
@@ -366,19 +360,18 @@ class Engine():
 					self.active_worksheet.write(row, col, each, fmt_header)
 					col = col + 1
 
-			if objeto.get("freeze_header",False):
+			if objeto.get("freeze_header", False):
 				self.active_worksheet.freeze_panes(header_row + 1, 0)  # Freeze the first row.
 
 			"""
 			Data
 			"""
 			self.info("Generando grilla de datos...")
-			total_cols	= col - header_col
 			data_col 	= header_col
 			data_row 	= header_row + 1
 			col 		= data_col
 			row  		= data_row
-			cols		= [index for index, titulo, width, format, conditional in header ]
+			cols		= [index for index, titulo, width, format, conditional in header]
 
 			for record in data["rows"]:
 				for c in cols:
@@ -414,7 +407,7 @@ class Engine():
 			autofilter_columns = objeto.get("autofilter_column_range")
 			if autofilter_columns:
 				self.info("Creando autofiltros...")
-				rango = xl_range(data_row - 1, data_col + autofilter_columns[0] - 1 , total_rows + 1, data_col + autofilter_columns[1] - 1)
+				rango = xl_range(data_row - 1, data_col + autofilter_columns[0] - 1, total_rows + 1, data_col + autofilter_columns[1] - 1)
 				self.active_worksheet.autofilter(rango)
 
 			"""
@@ -432,7 +425,6 @@ class Engine():
 								fmt = self.formatos.get(fspec)
 								filtered_dict.update({"format": fmt})
 								self.active_worksheet.conditional_format(cell, filtered_dict)
-
 
 	def insert_table(self, objeto):
 		"""insert_table: Inserta una tabla."""
