@@ -182,8 +182,7 @@ haremos escribiendo un archivo JSON similar a este:
 Ejecución
 =========
 
-```
-#!bash
+```bash
 
 uso: autoxls [-h] [-v] [-o "path"] [-n <level>] [-l file] [-f "archivo"]
              [-k '{key:value,key:value}'] [-s]
@@ -324,7 +323,7 @@ trata de `make.py`, la forma de ejecutarlo es la siguiente: `python
 tools\make.py <comando>` la ejecución si parámetros o mediante el parámetro
 `--help` arrojará una salida como lo que sigue:
 
-```
+```bash
 Automatización de tareas para el proyecto Autoxls
 (c) 2016, Patricio Moracho <pmoracho@gmail.com>
 
