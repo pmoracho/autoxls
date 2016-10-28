@@ -14,34 +14,23 @@
       <h1 class="project-name">Autoxls</h1>
       <h2 class="project-tagline">An automatic Excel file generator (From SQL data)</h2>
       <a href="https://github.com/pmoracho/autoxls" class="btn">View on GitHub</a>
-      <a href="https://github.com/pmoracho/autoxls/raw/master/dist/autoxls-20161027.zip" class="btn">Descargar ejecutable para Windows</a>
+      <a href="https://github.com/pmoracho/autoxls/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/pmoracho/autoxls/tarball/master" class="btn">Download .tar.gz</a>
     </section>
 
     <section class="main-content">
       <h1>
 <a id="autoxls" class="anchor" href="#autoxls" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Autoxls</h1>
 
+<ul>
+<li><a href="https://pmoracho.github.io/autoxls">Página del proyecto</a></li>
+<li><a href="https://github.com/pmoracho/autoxls">Proyecto en github</a></li>
+<li><a href="https://github.com/pmoracho/autoxls/raw/master/dist/autoxls-20161027.zip">Descarga de ejecutable para windows</a></li>
+</ul>
+
 <p><code>autoxls</code> es una herramienta de linea de comandos para automatizar las
 generación de archivos Excel 2003 a partir de resultados obtenidos de consultas
 a bases de datos.</p>
-
-<h1>
-<a id="contenidos" class="anchor" href="#contenidos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contenidos</h1>
-
-<ul>
-<li><a href="#markdown-header-caracteriticas-principales">Características principales</a></li>
-<li><a href="#markdown-header-antes-de-empezar">Antes de empezar</a></li>
-<li><a href="#markdown-header-primeros-pasos">Primeros pasos</a></li>
-<li>
-<a href="#markdown-header-ejecucion">Ejecución</a>
-
-<ul>
-<li><a href="#markdown-header-niveles-de-log">Niveles de log</a></li>
-<li><a href="#markdown-header-definiciones-de-keywords">Definiciones de keywords</a></li>
-</ul>
-</li>
-<li><a href="#markdown-header-notas-para-desarrollo">Notas para Desarrollo</a></li>
-</ul>
 
 <h1>
 <a id="características-principales" class="anchor" href="#caracter%C3%ADsticas-principales" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Características principales</h1>
@@ -237,37 +226,39 @@ haremos escribiendo un archivo JSON similar a este:</p>
     }
 }</pre></div>
 
+<p>TO DO...</p>
+
 <h1>
 <a id="ejecución" class="anchor" href="#ejecuci%C3%B3n" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ejecución</h1>
 
-<pre><code>#!bash
-
-uso: autoxls [-h] [-v] [-o "path"] [-n &lt;level&gt;] [-l file] [-f "archivo"]
-             [-k '{key:value,key:value}'] [-s]
-             ["archivo"]
+<div class="highlight highlight-source-shell"><pre>
+uso: autoxls [-h] [-v] [-o <span class="pl-s"><span class="pl-pds">"</span>path<span class="pl-pds">"</span></span>] [-n <span class="pl-k">&lt;</span>level<span class="pl-k">&gt;</span>] [-l file] [-f <span class="pl-s"><span class="pl-pds">"</span>archivo<span class="pl-pds">"</span></span>]
+             [-k <span class="pl-s"><span class="pl-pds">'</span>{key:value,key:value}<span class="pl-pds">'</span></span>] [-s]
+             [<span class="pl-s"><span class="pl-pds">"</span>archivo<span class="pl-pds">"</span></span>]
 
 Generación automatizada de archivos Excel (v0.9)
-2014, 2015, 2016 Patricio Moracho &lt;pmoracho@gmal.com&gt;
+2014, 2015, 2016 Patricio Moracho <span class="pl-k">&lt;</span>pmoracho@gmal.com<span class="pl-k">&gt;</span>
 
 argumentos posicionales:
-  "archivo"                               Archivo de entrada (JSON)
+  <span class="pl-s"><span class="pl-pds">"</span>archivo<span class="pl-pds">"</span></span>                               Archivo de entrada (JSON)
 
 argumentos opcionales:
   -h, --help                              mostrar esta ayuda y salir
-  -v, --version                           show program's version number and exit
-  -o "path", --outputpath "path"          Carpeta de salida dónde se almacenaran las planillas
-  -n &lt;level&gt;, --loglevel &lt;level&gt;          Nivel de log (default: ninguno)
-  -l file, --logfile file                 Archivo de log
-  -f "archivo", --keywordfile "archivo"   Archivo de keywords del procesos
-  -k '{key:value,key:value}', --keywords '{key:value,key:value}'
-                                          Keywords del procesos
-  -s, --start-excel                       Abrir automáticamente las planillas generadas
-
-
-</code></pre>
+  -v, --version                           show program<span class="pl-s"><span class="pl-pds">'</span>s version number and exit</span>
+<span class="pl-s">  -o "path", --outputpath "path"          Carpeta de salida dónde se almacenaran las planillas</span>
+<span class="pl-s">  -n &lt;level&gt;, --loglevel &lt;level&gt;          Nivel de log (default: ninguno)</span>
+<span class="pl-s">  -l file, --logfile file                 Archivo de log</span>
+<span class="pl-s">  -f "archivo", --keywordfile "archivo"   Archivo de keywords del procesos</span>
+<span class="pl-s">  -k <span class="pl-pds">'</span></span>{key:value,key:value}<span class="pl-s"><span class="pl-pds">'</span>, --keywords <span class="pl-pds">'</span></span>{key:value,key:value}<span class="pl-s"><span class="pl-pds">'</span></span>
+<span class="pl-s">                                          Keywords del procesos</span>
+<span class="pl-s">  -s, --start-excel                       Abrir automáticamente las planillas generadas</span>
+<span class="pl-s"></span>
+<span class="pl-s"></span></pre></div>
 
 <h1>
 <a id="definiciones-de-keywords" class="anchor" href="#definiciones-de-keywords" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Definiciones de keywords</h1>
+
+<p>TO DO..</p>
 
 <h1>
 <a id="niveles-de-log" class="anchor" href="#niveles-de-log" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Niveles de log</h1>
@@ -308,67 +299,6 @@ argumentos opcionales:
 </tr>
 </tbody>
 </table>
-
-<h1>
-<a id="notas-para-desarrollo" class="anchor" href="#notas-para-desarrollo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Notas para Desarrollo</h1>
-
-<p>Para desarrollo de la herramienta es necesario, además de contar con el entorno
-de desarrollo python mencionado <a href="../README.md">aquí</a>, tener en cuenta la
-siguiente información:</p>
-
-<ul>
-<li>
-<p>Crear el entorno de desarrollo</p>
-
-<ul>
-<li>Crear el entorno virtual, de esta manera aislamos las librerías que
-necesitaremos sin "ensuciar" el entorno Python base, por ejemplo:
-`virtualenv ../venvs/autoxls</li>
-<li>Activar el entorno, antes que nada hay que activar el entorno, para que
-los paths a Python apunten a las nuevas carpetas (Usando bash):  <code>source
-../venvs/autoxls/Scripts/activate</code>, en Windows:
-<code>../venvs/autoxls/Scripts/activate.bat</code>
-</li>
-<li>Instalar librerías adicionales. 
-
-<ul>
-<li>
-<a href="https://github.com/jmcnamara/XlsxWriter">XlsxWriter</a>: Estupenda
-libreria para generar archivos Excel.</li>
-<li>
-<a href="https://github.com/jiangwen365/pypyodbc">pypyodbc</a> para la
-conectividada con las bases de datos: <code>pip install pypyodbc</code>
-</li>
-<li>
-<a href="https://github.com/pyinstaller/pyinstaller/">pyinstaller</a> solo si el
-objetivo final es construir un ejecutable binario, esta herramienta
-es bastante sencilla y rápida si bien es mucho más poderosa
-<a href="https://bitbucket.org/anthony_tuininga/cx_freeze">Cx_freeze</a>, para
-instalar: <code>pip install pyinstaller</code>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>Probar el autoxls</p>
-
-<ul>
-<li>Activar el entorno:  <code>source  ../venvs/autoxls/Scripts/activate</code> o <code>../venvs/autoxls/Scripts/activate.bat</code>
-</li>
-<li>Ejecuta el script principal: <code>python autoxls.py -h</code>
-</li>
-</ul>
-</li>
-<li>
-<p>Preparar EXE para distribución</p>
-
-<ul>
-<li><code>pyinstaller autoxls.py -y --onefile --clean</code></li>
-<li>El archivo final debería estar en ./dist/autoxls.exe</li>
-</ul>
-</li>
-</ul>
 
 <h1>
 <a id="notas-para-el-desarrollador" class="anchor" href="#notas-para-el-desarrollador" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Notas para el desarrollador:</h1>
@@ -420,6 +350,26 @@ una estructura de directorios similar a la siguiente:</p></li>
 </code></pre>
 
 <h2>
+<a id="requerimientos-adicionales" class="anchor" href="#requerimientos-adicionales" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requerimientos adicionales</h2>
+
+<p><code>Autoxls</code> requiere las siguientes librerías:</p>
+
+<ul>
+<li>
+<a href="https://github.com/jmcnamara/XlsxWriter">XlsxWriter</a>: Estupenda libreria
+para generar archivos Excel, <code>pip install XlsxWriter</code>. </li>
+<li>
+<a href="https://github.com/jiangwen365/pypyodbc">pypyodbc</a> para la conectividada
+con las bases de datos: <code>pip install pypyodbc</code>
+</li>
+<li>
+<a href="https://github.com/pyinstaller/pyinstaller/">pyinstaller</a> solo si el
+objetivo final es construir un ejecutable binario, esta herramienta es
+bastante sencilla, para instalar: <code>pip install pyinstaller</code>
+</li>
+</ul>
+
+<h2>
 <a id="preparación-del-entorno-virtual-local" class="anchor" href="#preparaci%C3%B3n-del-entorno-virtual-local" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Preparación del entorno virtual local</h2>
 
 <p>Para poder ejecutar, o crear la distribución de la herramientas, lo primero que
@@ -430,25 +380,24 @@ trata de <code>make.py</code>, la forma de ejecutarlo es la siguiente: <code>pyt
 tools\make.py &lt;comando&gt;</code> la ejecución si parámetros o mediante el parámetro
 <code>--help</code> arrojará una salida como lo que sigue:</p>
 
-<pre><code>Automatización de tareas para el proyecto Autoxls
-(c) 2016, Patricio Moracho &lt;pmoracho@gmail.com&gt;
+<div class="highlight highlight-source-shell"><pre>Automatización de tareas para el proyecto Autoxls
+(c) 2016, Patricio Moracho <span class="pl-k">&lt;</span>pmoracho@gmail.com<span class="pl-k">&gt;</span>
 
-Uso: make &lt;command&gt; [&lt;args&gt;]
+Uso: make <span class="pl-k">&lt;</span><span class="pl-c1">command</span><span class="pl-k">&gt;</span> [<span class="pl-k">&lt;</span>args<span class="pl-k">&gt;</span>]
 
 Los comandos más usados:
    devcheck   Hace una verificación del entorno de desarrollo
    devinstall Realiza la instalación del entorno de desarrollo virtual e instala los requerimientos
    docinstall Intalación de Sphinx
    clear      Elimina archivos innecesarios
-   test       Ejecuta todos los tests definidos del proyecto
+   <span class="pl-c1">test</span>       Ejecuta todos los tests definidos del proyecto
    build      Construye la distribución binaria de las herramientas del proyecto
 
 argumentos posicionales:
-  command     Comando a ejecutar
+  <span class="pl-c1">command</span>     Comando a ejecutar
 
 argumentos opcionales:
-  -h, --help  mostrar esta ayuda y salir
-</code></pre>
+  -h, --help  mostrar esta ayuda y salir</pre></div>
 
 <p>Para preparar el entorno virtual simplemente haremos <code>python tools\make.py
 devinstall</code>, este proceso si resulta exitoso deberá haber realizado las
