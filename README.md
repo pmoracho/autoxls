@@ -5,15 +5,9 @@ Autoxls
 generación de archivos Excel 2003 a partir de resultados obtenidos de consultas
 a bases de datos.
 
-# Contenidos
-
-* [Características principales](#markdown-header-caracteriticas-principales)
-* [Antes de empezar](#markdown-header-antes-de-empezar)
-* [Primeros pasos](#markdown-header-primeros-pasos)
-* [Ejecución](#markdown-header-ejecucion)
-	* [Niveles de log](#markdown-header-niveles-de-log)
-	* [Definiciones de keywords](#markdown-header-definiciones-de-keywords)
-* [Notas para Desarrollo](#markdown-header-notas-para-desarrollo)
+* [Página del proyecto](https://pmoracho.github.io/autoxls)
+* [Proyecto en github](https://github.com/pmoracho/autoxls)
+* [Descarga de ejecutable para windows](https://github.com/pmoracho/autoxls/raw/master/dist/autoxls-20161027.zip)
 
 Características principales
 ===========================
@@ -243,15 +237,6 @@ siguiente información:
 	  ../venvs/autoxls/Scripts/activate`, en Windows:
 	  `../venvs/autoxls/Scripts/activate.bat`
 	* Instalar librerías adicionales. 
-		* [XlsxWriter](https://github.com/jmcnamara/XlsxWriter): Estupenda
-		  libreria para generar archivos Excel.
-		* [pypyodbc](https://github.com/jiangwen365/pypyodbc) para la
-		  conectividada con las bases de datos: `pip install pypyodbc`
-		* [pyinstaller](https://github.com/pyinstaller/pyinstaller/) solo si el
-		  objetivo final es construir un ejecutable binario, esta herramienta
-		  es bastante sencilla y rápida si bien es mucho más poderosa
-		  [Cx_freeze](https://bitbucket.org/anthony_tuininga/cx_freeze), para
-		  instalar: `pip install pyinstaller`
 
 
 * Probar el autoxls
@@ -312,6 +297,19 @@ autoxls.git
    |-tests
    |-tools
 ```
+
+## Requerimientos adicionales
+
+`Autoxls` requiere las siguientes librerías:
+
+* [XlsxWriter](https://github.com/jmcnamara/XlsxWriter): Estupenda libreria
+  para generar archivos Excel, `pip install XlsxWriter`. 
+* [pypyodbc](https://github.com/jiangwen365/pypyodbc) para la conectividada
+  con las bases de datos: `pip install pypyodbc`
+* [pyinstaller](https://github.com/pyinstaller/pyinstaller/) solo si el
+  objetivo final es construir un ejecutable binario, esta herramienta es
+  bastante sencilla, para instalar: `pip install pyinstaller`
+
 
 ## Preparación del entorno virtual local
 
@@ -374,4 +372,3 @@ siguientes tareas:
   válido el otro criterio pero ya los fuentes están con esta configuración, por
   lo que para evitar problemas al compilar los .py recomiendo seguir usando
   este criterio. Asimismo configurar en 4 posiciones estos <tab>.
-
