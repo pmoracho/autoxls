@@ -1,16 +1,16 @@
 Autoxls
 =======
 
-`autoxls` es una herramienta de linea de comandos para automatizar las
-generación de archivos Excel 2003 a partir de resultados obtenidos de consultas
-a bases de datos.
-
 * [Página del proyecto](https://pmoracho.github.io/autoxls)
 * [Proyecto en github](https://github.com/pmoracho/autoxls)
 * [Descarga de ejecutable para windows](https://github.com/pmoracho/autoxls/raw/master/dist/autoxls-20161027.zip)
 
-Características principales
-===========================
+`autoxls` es una herramienta de linea de comandos para automatizar las
+generación de archivos Excel 2003 a partir de resultados obtenidos de consultas
+a bases de datos.
+
+
+# Características principales
 
 * Múltiples conexiones a bases de datos
 * Mútiples fuentes de datos
@@ -37,8 +37,7 @@ Características principales
 	* formatos númericos
 
 
-Antes de empezar
-================
+# Antes de empezar
 
 Para comenzar, antes de probar la ejecución de esta herramienta, es necesario
 escribir un archivo de definición de la exportación a realizar. Este no es más
@@ -86,14 +85,12 @@ Este archivo definirá los siguientes elementos:
 
 Nota: Para referencia de las definiciones, ver la documentación del módulo [XlsxWriter](http://xlsxwriter.readthedocs.io/)
 
-Construcción de la cadena Dsn según datasource
-==============================================
+# Construcción de la cadena Dsn según datasource
 
 	* SQL Server: "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=<<database>>;UID=<<usuario>>;PWD=<<password>>" 
 
 
-Primeros pasos
-==============
+# Primeros pasos
 
 Para entender el funcionamiento de esta herramienta, vamos a imaginar el
 siguiente escenario: Tenemos un conjunto de servidores SQL Server y deseamos de
@@ -172,9 +169,10 @@ haremos escribiendo un archivo JSON similar a este:
 }
 ```
 
+TO DO...
 
-Ejecución
-=========
+
+# Ejecución
 
 ```bash
 
@@ -202,12 +200,11 @@ argumentos opcionales:
 
 ```
 
-Definiciones de keywords
-========================
+# Definiciones de keywords
 
+TO DO..
 
-Niveles de log
-==============
+# Niveles de log
 
 Utilizar el parámetro `-n` o `--loglevel` para indicar el nivel de información que mostrará la herramienta. Por defecto el nivel es NONE, que no mustra ninguna información.
 
@@ -219,34 +216,6 @@ INFO		| Confirmación visual de lo esperado
 WARNING		| Información de los eventos no esperados, pero aún la herramienta puede continuar
 ERROR		| Errores, alguna funcionalidad no se puede completar
 CRITICAL 	| Errores serios, el programa no puede continuar
-
-
-Notas para Desarrollo
-=====================
-
-Para desarrollo de la herramienta es necesario, además de contar con el entorno
-de desarrollo python mencionado [aquí](../README.md), tener en cuenta la
-siguiente información:
-
-* Crear el entorno de desarrollo
-	* Crear el entorno virtual, de esta manera aislamos las librerías que
-	  necesitaremos sin "ensuciar" el entorno Python base, por ejemplo:
-	  `virtualenv ../venvs/autoxls
-	* Activar el entorno, antes que nada hay que activar el entorno, para que
-	  los paths a Python apunten a las nuevas carpetas (Usando bash):  `source
-	  ../venvs/autoxls/Scripts/activate`, en Windows:
-	  `../venvs/autoxls/Scripts/activate.bat`
-	* Instalar librerías adicionales. 
-
-
-* Probar el autoxls
-	* Activar el entorno:  `source  ../venvs/autoxls/Scripts/activate` o `../venvs/autoxls/Scripts/activate.bat`
-	* Ejecuta el script principal: `python autoxls.py -h`
-
-
-* Preparar EXE para distribución
-	* `pyinstaller autoxls.py -y --onefile --clean`
-	* El archivo final debería estar en ./dist/autoxls.exe
 
 # Notas para el desarrollador:
 
