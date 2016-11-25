@@ -17,6 +17,10 @@ a bases de datos.
 * Múltiples consultas/querys/Stored procedures
 * Capacidad de procesar múltiples recordsets a partir de una única consulta
 * Generáción automatizada de uno o más archivos Excel por ejecución
+* Los archivos generados pueden salvarse en:
+	* Una carpeta definida
+	* El escritorio del usuario `{Desktop}`
+	* Una carpeta temporal `{Tmp}`
 * Definición dinámica de nombres y textos a partir de "keywords" definidas en
   la invocación o por un archivo externo de keywords, puede aplicar:
 	* Nombre del archivo
@@ -196,7 +200,7 @@ argumentos opcionales:
   -k '{key:value,key:value}', --keywords '{key:value,key:value}'
                                           Keywords del procesos
   -s, --start-excel                       Abrir automáticamente las planillas generadas
-
+  -d, --drop-config-files                 Eliminar el archivo de input y eventualmente el de keywords
 
 ```
 

@@ -49,6 +49,7 @@ try:
 	import gettext
 	import json
 	import logging
+	import tempfile
 
 	"""
 	Clases propias
@@ -78,26 +79,30 @@ try:
 	gettext.gettext = my_gettext
 
 	import argparse
-	from argparse import RawTextHelpFormatter
 
 except ImportError as err:
 	modulename = err.args[0].split()[3]
 	print("No fue posible importar el modulo: %s" % modulename)
 	sys.exit(-1)
 
+def delete_file(filename):
+	try:
+		os.remove(filename)
+	except OSError:
+		pass
 
 def init_argparse():
 	"""init_argparse: Inicializar parametros del programa."""
-	usage			="\n\n " 
+	usage			= "\n\n "
 
-	cmdparser = argparse.ArgumentParser(prog			= __appname__, 
-										description		= "%s (v%s)\n%s\n" % (__appdesc__,__version__,__copyright__ ), 
+	cmdparser = argparse.ArgumentParser(prog			= __appname__,
+										description		= "%s (v%s)\n%s\n" % (__appdesc__,__version__,__copyright__ ),
 										epilog			= usage,
-										formatter_class = lambda prog: argparse.RawTextHelpFormatter(prog,max_help_position=42), 
+										formatter_class = lambda prog: argparse.RawTextHelpFormatter(prog,max_help_position=42),
 										usage			= None
 										)
 
-	cmdparser.add_argument('inputfile'				, type=str, nargs='?'											, help="Archivo de entrada (JSON)", metavar="\"archivo\"")	
+	cmdparser.add_argument('inputfile'				, type=str, nargs='?'											, help="Archivo de entrada (JSON)", metavar="\"archivo\"")
 
 	cmdparser.add_argument('-v', '--version'					, action='version', version=__version__)
 	cmdparser.add_argument('-o', '--outputpath'		, type=str	, action="store", dest="outputpath"					, help="Carpeta de salida dónde se almacenaran las planillas", metavar="\"path\"", default=".")
@@ -105,18 +110,20 @@ def init_argparse():
 	cmdparser.add_argument('-l', '--logfile'		, type=str	, action="store", dest="logfile"					, help="Archivo de log", metavar="file", default=None)
 	cmdparser.add_argument('-f', '--keywordfile'	, type=str	, action="store", dest="keyworfilejson"				, help="Archivo de keywords del procesos", metavar="\"archivo\"")
 	cmdparser.add_argument('-k', '--keywords'		, type=str	, action="store", dest="keyworjson"					, help="Keywords del procesos", metavar="""{'key':'value','key':'value'}""")
-	cmdparser.add_argument('-s', '--start-excel'				, action="store_true", dest="startexcel"			, help="Abrir automáticamente las planillas generadas")	
+	cmdparser.add_argument('-s', '--start-excel'				, action="store_true", dest="startexcel"			, help="Abrir automáticamente las planillas generadas")
+	cmdparser.add_argument('-d', '--drop-config-files'			, action="store_true", dest="dropcfgfiles"			, help="Eliminar el archivo de input y eventualmente el de keywords")
 
 	return cmdparser
+
 
 def file_accessible(filepath, mode):
 	"""Check if a file exists and is accessible. """
 	try:
-		with open(filepath,mode, encoding='utf8') as file:
+		with open(filepath, mode, encoding='utf8'):
 			pass
-	except IOError as e:
+	except IOError:
 		return False
- 
+
 	return True
 
 """
@@ -153,7 +160,6 @@ if __name__ == "__main__":
 			cmdparser.error(u"debe indicar el archivo de input (--inputfile)")
 			sys.exit(-1)
 
-	
 	log_level = getattr(logging, args.loglevel.upper(), None)
 	logging.basicConfig(filename=args.logfile, level=log_level, format='%(asctime)s:%(levelname)s:%(message)s', datefmt='%Y/%m/%d %I:%M:%S', filemode='w')
 
@@ -166,7 +172,7 @@ if __name__ == "__main__":
 
 	if not args.keyworfilejson:
 		if file_accessible(defaul_keywords_file, 'r'):
-			args.keyworfilejson =  defaul_keywords_file
+			args.keyworfilejson = defaul_keywords_file
 
 	if args.keyworfilejson:
 		try:
@@ -180,7 +186,10 @@ if __name__ == "__main__":
 	if args.outputpath == '{desktop}':
 		outputpath = os.path.join(os.path.expanduser('~'), 'Desktop')
 	else:
-		outputpath = args.outputpath
+		if args.outputpath == '{tmp}':
+			outputpath = tempfile._get_default_tempdir()
+		else:
+			outputpath = args.outputpath
 
 	jsonfile = args.inputfile
 
@@ -192,8 +201,13 @@ if __name__ == "__main__":
 
 	try:
 		engine.generate(outputpath, args.startexcel)
+		if args.dropcfgfiles:
+			delete_file(jsonfile)
+			delete_file(args.keyworfilejson)
+
 	except Exception as e:
 		logging.error("%s error: %s" % (__appname__, str(e)))
+
 
 	logging.info("proceso exitoso!")
 
