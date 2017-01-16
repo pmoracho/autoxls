@@ -345,3 +345,10 @@ siguientes tareas:
   válido el otro criterio pero ya los fuentes están con esta configuración, por
   lo que para evitar problemas al compilar los .py recomiendo seguir usando
   este criterio. Asimismo configurar en 4 posiciones estos <tab>.
+
+## Change Log:
+
+#### Version 1.0.1 - 2017-01-01
+* Fix en el objeto "Table" y se mantiene orden original de los campos de la tabla
+		
+
