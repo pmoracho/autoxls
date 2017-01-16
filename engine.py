@@ -233,8 +233,12 @@ class Engine():
 		for o in objects.get("text_rows", []):
 			self.insert_text_rows(o)
 
-		for o in objects.get("table", []):
-			self.insert_table(o)
+		try:
+			for o in objects.get("table", []):
+				self.insert_table(o)
+		except Exception as e:
+			self.error(u"Ocurrio el error %s al intentar crear los objetos [table]" % (str(e)))
+			# Imposible castear del dato
 
 		for o in objects.get("datagrid", []):
 			self.insert_datagrid(o)
@@ -430,28 +434,29 @@ class Engine():
 		"""insert_table: Inserta una tabla."""
 
 		source = objeto["source"]
-		ds = self.datasources.get(source)
+		ds = self.datasources.get(source["datasource"])
 
 		if ds is not None:
 
-			data = ds.data()
+			rsnum = source.get("recordset_index", 1) - 1
+			data = ds.newdata(rsnum)
 			row, col = xl_cell_to_rowcol(objeto.get("at"))
 
 			fmt_header = self.formatos.get(objeto.get("header_format"))
 
 			header = []
-			for each in ds.header():
-				header.append({"datacols": each, "format": fmt_header})
+			for each in data["colnames"]:
+				header.append({"header": each, "header_format": fmt_header})
 
 			self.active_worksheet.add_table(row,
 											col,
-											row + ds.rows,
-											col + ds.cols - 1,
+											row + len(data["rows"]),
+											col + len(data["colnames"]) - 1,
 											{
-												'data': data,
-												'style': 'Table Style Medium 2',
-												'total_row': 1,
-												'autofilter': False,
+												'data': data["rows"],
+												'style': objeto.get("style", "Table Style Medium 2"),
+												'total_row': objeto.get("total_row", 1),
+												'autofilter': objeto.get("autofilter", False),
 												'columns': header,
 											})
 
