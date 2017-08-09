@@ -264,6 +264,9 @@ class Engine():
 
 	def insert_text_formated(self, objeto):
 		"""insert_text: Inserta un texto formateado."""
+
+		self.info("Objetos text_formated")
+
 		values 	= [self.cast_text(self.get_string_from_template(v), t) for v, t in objeto.get("values", [])]
 		at 		= objeto.get("at")
 		texto 	= objeto.get("text", "").format(*values)
@@ -280,6 +283,9 @@ class Engine():
 
 	def insert_formula(self, objeto):
 		"""insert_formula. Inserta una formula."""
+
+		self.info("Objetos formulas")
+
 		at 		= objeto.get("at", None)
 		formula = objeto.get("formula", None)
 		fmt 	= self.formatos.get(objeto.get("format", None))
@@ -288,6 +294,9 @@ class Engine():
 
 	def insert_text_rows(self, objeto):
 		"""insert_text_rows: Inserta filas con texto."""
+
+		self.info("Objetos text_rows")
+
 		row, col 	= xl_cell_to_rowcol(objeto.get("at"))
 		textos 		= objeto.get("text", None)
 		format 		= self.formatos.get(objeto.get("format"))
@@ -301,6 +310,8 @@ class Engine():
 
 	def insert_text(self, objeto):
 		"""insert_text: Inserta un texto."""
+
+		self.info("Objetos text")
 
 		at 		= objeto.get("at")
 		texto 	= self.get_string_from_template(objeto.get("text", None))
@@ -323,6 +334,7 @@ class Engine():
 
 		"""
 
+		self.info("Procesando objetos datagrid...")
 		source = objeto["source"]
 		ds = self.datasources.get(source["datasource"])
 		if ds is not None:
@@ -432,6 +444,8 @@ class Engine():
 
 	def insert_table(self, objeto):
 		"""insert_table: Inserta una tabla."""
+
+		self.info("Objetos table")
 
 		source = objeto["source"]
 		ds = self.datasources.get(source["datasource"])

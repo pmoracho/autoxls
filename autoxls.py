@@ -85,6 +85,7 @@ except ImportError as err:
 	print("No fue posible importar el modulo: %s" % modulename)
 	sys.exit(-1)
 
+
 def delete_file(filename):
 	try:
 		os.remove(filename)
@@ -106,7 +107,7 @@ def init_argparse():
 
 	cmdparser.add_argument('-v', '--version'					, action='version', version=__version__)
 	cmdparser.add_argument('-o', '--outputpath'		, type=str	, action="store", dest="outputpath"					, help="Carpeta de salida dónde se almacenaran las planillas", metavar="\"path\"", default=".")
-	cmdparser.add_argument('-n', '--loglevel'		, type=str	, action="store", dest="loglevel"					, help="Nivel de log (default: ninguno)", metavar="<level>", default="WARNING")
+	cmdparser.add_argument('-n', '--loglevel'		, type=str	, action="store", dest="loglevel"					, help="Nivel de log (default: ninguno)", metavar="<level>", default="DEBUG")
 	cmdparser.add_argument('-l', '--logfile'		, type=str	, action="store", dest="logfile"					, help="Archivo de log", metavar="file", default=None)
 	cmdparser.add_argument('-f', '--keywordfile'	, type=str	, action="store", dest="keyworfilejson"				, help="Archivo de keywords del procesos", metavar="\"archivo\"")
 	cmdparser.add_argument('-k', '--keywords'		, type=str	, action="store", dest="keyworjson"					, help="Keywords del procesos", metavar="""{'key':'value','key':'value'}""")
@@ -161,7 +162,7 @@ if __name__ == "__main__":
 			sys.exit(-1)
 
 	log_level = getattr(logging, args.loglevel.upper(), None)
-	logging.basicConfig(filename=args.logfile, level=log_level, format='%(asctime)s:%(levelname)s:%(message)s', datefmt='%Y/%m/%d %I:%M:%S', filemode='w')
+	logging.basicConfig(filename=args.logfile, level=log_level, format='%(asctime)s|%(levelname)s|%(message)s', datefmt='%Y/%m/%d %I:%M:%S', filemode='w')
 
 	# keywords, formato python: '{key:value,key:value}'
 	# Se pueden pasar por --keywords o en un archivo por --keywordfile
@@ -207,7 +208,6 @@ if __name__ == "__main__":
 
 	except Exception as e:
 		logging.error("%s error: %s" % (__appname__, str(e)))
-
 
 	logging.info("proceso exitoso!")
 
