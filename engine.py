@@ -429,7 +429,8 @@ class Engine():
 			"""
 			Formatos condicionales
 			"""
-			for col, (index, titulo, width, format, conditional) in enumerate(header):
+			col = data_col
+			for (index, titulo, width, format, conditional) in header:
 				if conditional is not None:
 					formula = self.conditionals.get(conditional)
 					if formula is not None:
@@ -441,6 +442,7 @@ class Engine():
 								fmt = self.formatos.get(fspec)
 								filtered_dict.update({"format": fmt})
 								self.active_worksheet.conditional_format(cell, filtered_dict)
+				col = col + 1
 
 	def insert_table(self, objeto):
 		"""insert_table: Inserta una tabla."""

@@ -177,10 +177,10 @@ haremos escribiendo un archivo JSON similar a este:
 
 	"conditional": { 
 		"calificacion" : [
-					{"type": "cell", "criteria": "between", "minimum": "\"A\"", "maximum": "\"BBB\"", "format" : "verde" },
-					{"type": "cell", "criteria": "between", "minimum": "\"C\"", "maximum": "\"DDD\"", "format" : "amarillo" },
-					{"type": "cell", "criteria": "between", "minimum": "\"E\"", "maximum": "\"EEE\"", "format" : "rojo" }
-					]
+				{"type": "cell", "criteria": "between", "minimum": "\"A\"", "maximum": "\"BBB\"", "format" : "verde" },
+				{"type": "cell", "criteria": "between", "minimum": "\"C\"", "maximum": "\"DDD\"", "format" : "amarillo" },
+				{"type": "cell", "criteria": "between", "minimum": "\"E\"", "maximum": "\"EEE\"", "format" : "rojo" }
+				]
 		}		
 }
 ```
