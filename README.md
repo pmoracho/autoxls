@@ -7,13 +7,14 @@ Autoxls
 
 `autoxls` es una herramienta de linea de comandos para automatizar las
 generación de archivos Excel 2003 a partir de resultados obtenidos de consultas
-a bases de datos.
+a bases de datos. Esta basada en el uso de la excelente librería
+[XlsxWriter](https://github.com/jmcnamara/XlsxWriter), consultar la completa
+documentación de esta librería para más detalle
 
 
 # Características principales
 
 * Múltiples conexiones a bases de datos
-* Mútiples fuentes de datos
 * Múltiples consultas/querys/Stored procedures
 * Capacidad de procesar múltiples recordsets a partir de una única consulta
 * Generáción automatizada de uno o más archivos Excel por ejecución
@@ -21,6 +22,7 @@ a bases de datos.
 	* Una carpeta definida
 	* El escritorio del usuario `{Desktop}`
 	* Una carpeta temporal `{Tmp}`
+	* Abrirse automáticamente
 * Definición dinámica de nombres y textos a partir de "keywords" definidas en
   la invocación o por un archivo externo de keywords, puede aplicar:
 	* Nombre del archivo
@@ -33,12 +35,14 @@ a bases de datos.
 	* textos y filas completas
 	* formulas
 	* grillas de datos o tablas
+	* Autofiltros
 * Definir formatos de los objetos
 	* anchos de columnas
 	* colores
-	* tipos de letra
+	* tipos de letra / tamaño
 	* Alineaciones
 	* formatos númericos
+	* Formatos condicionales
 
 
 # Antes de empezar
@@ -169,7 +173,15 @@ haremos escribiendo un archivo JSON similar a este:
 			"subtotal" 			: [ "default_font", "right", "bold", "number2_fmt" ],
 			"number" 			: [ "default_font", "right", "number2_fmt" ],
 			"int" 				: [ "default_font", "right", "int_fmt" ]
-	}
+	},
+
+	"conditional": { 
+		"calificacion" : [
+					{"type": "cell", "criteria": "between", "minimum": "\"A\"", "maximum": "\"BBB\"", "format" : "verde" },
+					{"type": "cell", "criteria": "between", "minimum": "\"C\"", "maximum": "\"DDD\"", "format" : "amarillo" },
+					{"type": "cell", "criteria": "between", "minimum": "\"E\"", "maximum": "\"EEE\"", "format" : "rojo" }
+					]
+		}		
 }
 ```
 
