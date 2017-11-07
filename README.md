@@ -19,30 +19,30 @@ documentación de esta librería para más detalle
 * Capacidad de procesar múltiples recordsets a partir de una única consulta
 * Generáción automatizada de uno o más archivos Excel por ejecución
 * Los archivos generados pueden salvarse en:
-	* Una carpeta definida
-	* El escritorio del usuario `{Desktop}`
-	* Una carpeta temporal `{Tmp}`
-	* Abrirse automáticamente
+  * Una carpeta definida
+  * El escritorio del usuario `{Desktop}`
+  * Una carpeta temporal `{Tmp}`
+  * Abrirse automáticamente
 * Definición dinámica de nombres y textos a partir de "keywords" definidas en
   la invocación o por un archivo externo de keywords, puede aplicar:
-	* Nombre del archivo
-	* Nombres de las solapas
-	* Textos en la planilla
-	* Parámetros de invocación de la consulta
-	* Datos de la conexión: servidor, usuario, contraseña
+  * Nombre del archivo
+  * Nombres de las solapas
+  * Textos en la planilla
+  * Parámetros de invocación de la consulta
+  * Datos de la conexión: servidor, usuario, contraseña
 * Definir multiples solapas por archivo
 * Automatizar la generación de múltiples objetos
-	* textos y filas completas
-	* formulas
-	* grillas de datos o tablas
-	* Autofiltros
+  * textos y filas completas
+  * formulas
+  * grillas de datos o tablas
+  * Autofiltros
 * Definir formatos de los objetos
-	* anchos de columnas
-	* colores
-	* tipos de letra / tamaño
-	* Alineaciones
-	* formatos númericos
-	* Formatos condicionales
+  * anchos de columnas
+  * colores
+  * tipos de letra / tamaño
+  * Alineaciones
+  * formatos númericos
+  * Formatos condicionales
 
 
 # Antes de empezar
@@ -57,27 +57,27 @@ Este archivo definirá los siguientes elementos:
 
 * **datasources**: uno o más conexiones a bases de datos, con las siguientes propiedades:
 
-	* **data\_connect\_str**: que establece una conexión a un servidor de
-	  datos.
-	* **data\_query**: que define la correspondiente consulta. Podrá ser una
-	  "query" común o directamente la ejecución de un stored procedure.
-	* **data\_query\_file**: Archivo dónde encontramos la consulta SQL.
-	
+  * **data\_connect\_str**: que establece una conexión a un servidor de
+    datos.
+  * **data\_query**: que define la correspondiente consulta. Podrá ser una
+    "query" común o directamente la ejecución de un stored procedure.
+  * **data\_query\_file**: Archivo dónde encontramos la consulta SQL.
+  
 * **files**:  Que define la generación de uno o más archivos Excel. Por cada archivo se podrá definir una o más:
-	
-	* **sheets**: Es decir, solapas de la planilla, por cada una de estas se pueden definir varios objetos Excel:
-		
-		* **text**: Texto estático, normalmente titulos, se define la celda, el
-		  texto y el formato.
-		* **text_rows**: Define una lista de textos estáticos, que se escriben
-		  a partir de una posición en la fila, una celda a continuación de la
-		  otra con un determinado formato
-		* **text_formated**: Una especialización de los objetos de texto, que
-		  permite aplicar formatos sobre datos recibidos en las __keywords__.
-		* **datagrid**: Una grilla de datos, la salida final de los datos
-		  recuperados.
-		* **formulas**: Formulas de escel
-		* **table**: Una tabla Excel. 
+  
+  * **sheets**: Es decir, solapas de la planilla, por cada una de estas se pueden definir varios objetos Excel:
+    
+    * **text**: Texto estático, normalmente titulos, se define la celda, el
+      texto y el formato.
+    * **text_rows**: Define una lista de textos estáticos, que se escriben
+      a partir de una posición en la fila, una celda a continuación de la
+      otra con un determinado formato
+    * **text_formated**: Una especialización de los objetos de texto, que
+      permite aplicar formatos sobre datos recibidos en las __keywords__.
+    * **datagrid**: Una grilla de datos, la salida final de los datos
+      recuperados.
+    * **formulas**: Formulas de escel
+    * **table**: Una tabla Excel. 
 
 * **formats**: Cada objetos se "dibuja" con distintos formatos, estos se
   definene a nivel general. Hay dos tipos, los básicos o "primitivos", por
@@ -95,97 +95,127 @@ Nota: Para referencia de las definiciones, ver la documentación del módulo [Xl
 
 # Construcción de la cadena Dsn según datasource
 
-	* SQL Server: "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=<<database>>;UID=<<usuario>>;PWD=<<password>>" 
+  * SQL Server: "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=<<database>>;UID=<<usuario>>;PWD=<<password>>" 
 
 
 # Primeros pasos
 
 Para entender el funcionamiento de esta herramienta, vamos a imaginar el
-siguiente escenario: Tenemos un conjunto de servidores SQL Server y deseamos de
+siguiente escenario: Tenemos un servidor SQL Server y deseamos de
 forma automatizada generar un informe a una determinada hora de los procesos
-corriendo en los mismos. Para esto contamos con un clásico stored procedure
+corriendo en el mismo. Para esto contamos con un clásico stored procedure
 llamado `sp_who2`, usando `autoxls` resulta muy fácil hacer esto. El primer
 paso es generar la definición del proceso de exportación de datos, esto lo
 haremos escribiendo un archivo JSON similar a este:
 
 ```javascript
 {
-	"datasources": {
-		"data" : {
-			"data_connect_str" : "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=master;UID=<<user>>;PWD=<<passw>>",
-			"data_query" : "EXEC sp_who2"
-		}
-	},
-	"files": [
-		{
-			"filename": "sp_who2 on <<server>>_<<Now>>.xlsx",
-			"sheets": [
-				{
-					"name": "sp_who2 on <<server>>",
-					"default_row_height" : 11.5 ,
-					"objects": {
-						"text": [
-							{ "text" : "Resultado del sp_who ejecutado el <<Now>> en <<server>>", "format" : "encabezado_titulo", "at" : "B2" }
-						],
-						"text_rows": [
-							{ "text" : [null,null,null,null,null], "format" : "encabezado_titulo", "at" : "C2" }
-						],
-						"datagrid": [
-							{
-								"source" : {"datasource": "data","recordset_index" : 1},
-								"at" : "B3",
-								"header_format": "encabezado",
-								"header_height": 25,
-								"freeze_header" : true,
-								"datacols" : [
-												[ 1, "SPID"						, 8		, "int"				, null ],
-												[ 2, "Status"					, 20	, "default"			, null ],
-												[ 3, "Login"					, 16	, "default"			, null ],
-												[ 4, "HostName"					, 12	, "default"			, null ],
-												[11, "ProgramName"				, 60	, "default"			, null ],
-												[ 8, "CpuTime"					, 12	, "number"			, null ]
+  "datasources": {
+    "data" : {
+      "data_connect_str" : "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=master;UID=<<user>>;PWD=<<passw>>",
+      "data_query" : "EXEC sp_who2"
+    }
+  },
+  "files": [
+    {
+      "filename": "sp_who2 on <<server>>_<<Now>>.xlsx",
+      "sheets": [
+        {
+          "name": "sp_who2 on <<server>>",
+          "default_row_height" : 11.5 ,
+          "objects": {
+            "text": [
+              { "text" : "Resultado del sp_who ejecutado el <<Now>> en <<server>>", "format" : "encabezado_titulo", "at" : "B2" }
+            ],
+            "text_rows": [
+              { "text" : [null,null,null,null,null], "format" : "encabezado_titulo", "at" : "C2" }
+            ],
+            "datagrid": [
+              {
+                "source" : {"datasource": "data","recordset_index" : 1},
+                "at" : "B3",
+                "header_format": "encabezado",
+                "header_height": 25,
+                "freeze_header" : true,
+                "alternate_colors": ["color_impar","color_par"],
+                "datacols" : [
+                        [ 1, "SPID"            , 8   , "int"          , null ],
+                        [ 2, "Status"          , 20  , "default"      , null ],
+                        [ 3, "Login"           , 16  , "default"      , null ],
+                        [ 4, "HostName"        , 12  , "default"      , null ],
+                        [11, "ProgramName"     , 60  , "default"      , null ],
+                        [ 8, "CpuTime"         , 12  , "number"       , "cpu" ]
 
-								],
-								"autofilter_column_range" : [1,6],
-								"subtotals" : [
-									{"at" : "END", "format" : "subtotal_int", "total_function" : "2" , "cols_num" : [1] },
-									{"at" : "END", "format" : "subtotal", "total_function" : "9" , "cols_num" : [6] }
-								]
-							}
-						]
-					}
-				}
-			]	
-		}
-	],
-	"formats": {
-			"default_font"		: { "font_name" : "Verdana", "font_size" : 8, "num_format" : "", "valign" : "top" },
-			"right" 			: { "align" : "right" },
-			"left" 				: { "align" : "left" },
-			"bold" 				: { "bold" : "True" },
-			"color"				: { "bg_color": "#C6EFCE" },
-			"int_fmt"			: { "num_format" : "#,##0" },
-			"number2_fmt"		: { "num_format" : "#,##0.00" },
-			"default" 			: [ "default_font", "left" ] ,
-			"encabezado_titulo"	: [ "default_font", "bold", "color"],
-			"encabezado"		: [ "default_font", "bold", "color", { "bottom" : 1, "bottom_color" : "#0000FF", "text_wrap": "True", "valign": "top" }],
-			"subtotal_int" 		: [ "default_font", "right", "bold", "int_fmt" ],
-			"subtotal" 			: [ "default_font", "right", "bold", "number2_fmt" ],
-			"number" 			: [ "default_font", "right", "number2_fmt" ],
-			"int" 				: [ "default_font", "right", "int_fmt" ]
-	},
+                ],
+                "autofilter_column_range" : [1,6],
+                "subtotals" : [
+                  {"at" : "END", "format" : "subtotal_int", "total_function" : "2" , "cols_num" : [1] },
+                  {"at" : "END", "format" : "subtotal", "total_function" : "9" , "cols_num" : [6] }
+                ]
+              }
+            ]
+          }
+        }
+      ]  
+    }
+  ],
+  "formats": {
+      "default_font":      { "font_name" : "Verdana", "font_size" : 8, "num_format" : "", "valign" : "top" },
+      "right":             { "align" : "right" },
+      "left":              { "align" : "left" },
+      "bold":              { "bold" : "True" },
+      "color":             { "bg_color": "#C6EFCE" },
+      "color_impar":       { "bg_color": "#A6EFCE" },
+      "color_par":         { "bg_color": "#C6EFCE" },
+      "int_fmt":           { "num_format" : "#,##0" },
+      "number2_fmt":       { "num_format" : "#,##0.00" },
+      "default":           [ "default_font", "left" ] ,
+      "encabezado_titulo": [ "default_font", "bold", "color"],
+      "encabezado":        [ "default_font", "bold", "color", { "bottom" : 1, "bottom_color" : "#0000FF", "text_wrap": "True", "valign": "top" }],
+      "subtotal_int":      [ "default_font", "right", "bold", "int_fmt" ],
+      "subtotal":          [ "default_font", "right", "bold", "number2_fmt" ],
+      "number":            [ "default_font", "right", "number2_fmt" ],
+      "int":               [ "default_font", "right", "int_fmt" ],
+      "numero_rojo":       [ "number2_fmt", { "bg_color": "#FF0000", "font_color": "#FFFFFF"}]
+  },
+  "conditional": { 
+    "cpu" : [
+        {"type": "cell", "criteria": ">", "value": 2000, "format" : "numero_rojo" }
+        ]
+    }    
+}
 
-	"conditional": { 
-		"calificacion" : [
-				{"type": "cell", "criteria": "between", "minimum": "\"A\"", "maximum": "\"BBB\"", "format" : "verde" },
-				{"type": "cell", "criteria": "between", "minimum": "\"C\"", "maximum": "\"DDD\"", "format" : "amarillo" },
-				{"type": "cell", "criteria": "between", "minimum": "\"E\"", "maximum": "\"EEE\"", "format" : "rojo" }
-				]
-		}		
+``` 
+
+Lo llamaremos `export.json` pero puede ser cualquier nombre. Para generar
+el excel a partir de la anterior definición, deberemos además establecer los
+keywords del proceso:
+
+* `<<server>>` El servidor de base de datos
+* `<<user>>` Usuario
+* `<<passw>>` Contraseña
+
+Hay dos formas de hacer esto, mediante un archivo de keywords, que llamaremos
+`keywords.json`, pero puede ser cualquier nombre, un texto Ascii estándar con
+el siguiente formato:
+
+```
+{ 	
+	"server" 			: "servidor",
+	"user" 				: "miusuario",
+	"passw"				: "micontraseña"
 }
 ```
 
-TO DO...
+En cuyo caso ejecutaríamos así la herramienta así:
+
+`autoxls export.json -f keywords.json`
+
+
+O bien, se puede definir los "keywords" por línea de comando sin necesidad de
+preconfiguraralos en un archivo así:
+
+`autoxls export.json -k "{'server': 'servidor', 'user': 'miusuario', 'passw': 'micontraseña'}"`
 
 
 # Ejecución
@@ -216,22 +246,21 @@ argumentos opcionales:
 
 ```
 
-# Definiciones de keywords
-
-TO DO..
 
 # Niveles de log
 
-Utilizar el parámetro `-n` o `--loglevel` para indicar el nivel de información que mostrará la herramienta. Por defecto el nivel es NONE, que no mustra ninguna información.
+Utilizar el parámetro `-n` o `--loglevel` para indicar el nivel de información
+que mostrará la herramienta. Por defecto el nivel es NONE, que no mustra
+ninguna información.
 
-Nível		| Detalle
+Nível       | Detalle
 ----------- | -------------
-NONE		| No motrar ninguna información
-DEBUG		| Información detallada, tipicamente análisis y debug
-INFO		| Confirmación visual de lo esperado
-WARNING		| Información de los eventos no esperados, pero aún la herramienta puede continuar
-ERROR		| Errores, alguna funcionalidad no se puede completar
-CRITICAL 	| Errores serios, el programa no puede continuar
+NONE        | No motrar ninguna información
+DEBUG       | Información detallada, tipicamente análisis y debug
+INFO        | Confirmación visual de lo esperado
+WARNING     | Información de los eventos no esperados, pero aún la herramienta puede continuar
+ERROR       | Errores, alguna funcionalidad no se puede completar
+CRITICAL    | Errores serios, el programa no puede continuar
 
 # Notas para el desarrollador:
 
@@ -362,5 +391,5 @@ siguientes tareas:
 
 #### Version 1.0.1 - 2017-01-01
 * Fix en el objeto "Table" y se mantiene orden original de los campos de la tabla
-		
+    
 

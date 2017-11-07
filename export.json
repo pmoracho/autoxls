@@ -1,75 +1,75 @@
 {
-	"datasources": {
-		"data" : {
-			"data_connect_str" : "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=master;UID=<<user>>;PWD=<<passw>>",
-			"data_query" : "EXEC sp_who2"
-		}
-	},
-	"files": [
-		{
-			"filename": "sp_who2 on <<server>>_<<Now>>.xlsx",
-			"sheets": [
-				{
-					"name": "sp_who2 on <<server>>",
-					"default_row_height" : 11.5 ,
-					"objects": {
-						"text": [
-							{ "text" : "Resultado del sp_who ejecutado el <<Now>> en <<server>>", "format" : "encabezado_titulo", "at" : "B2" }
-						],
-						"text_rows": [
-							{ "text" : [null,null,null,null,null], "format" : "encabezado_titulo", "at" : "C2" }
-						],
-						"datagrid": [
-							{
-								"source" : {"datasource": "data","recordset_index" : 1},
-								"at" : "B3",
-								"header_format": "encabezado",
-								"header_height": 25,
-								"freeze_header" : true,
-								"alternate_colors": ["color_impar","color_par"],
-								"datacols" : [
-												[ 1, "SPID"						, 8		, "int"				, null ],
-												[ 2, "Status"					, 20	, "default"			, null ],
-												[ 3, "Login"					, 16	, "default"			, null ],
-												[ 4, "HostName"					, 12	, "default"			, null ],
-												[11, "ProgramName"				, 60	, "default"			, null ],
-												[ 8, "CpuTime"					, 12	, "number"		    , "cpu" ]
+  "datasources": {
+    "data" : {
+      "data_connect_str" : "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=master;UID=<<user>>;PWD=<<passw>>",
+      "data_query" : "EXEC sp_who2"
+    }
+  },
+  "files": [
+    {
+      "filename": "sp_who2 on <<server>>_<<Now>>.xlsx",
+      "sheets": [
+        {
+          "name": "sp_who2 on <<server>>",
+          "default_row_height" : 11.5 ,
+          "objects": {
+            "text": [
+              { "text" : "Resultado del sp_who ejecutado el <<Now>> en <<server>>", "format" : "encabezado_titulo", "at" : "B2" }
+            ],
+            "text_rows": [
+              { "text" : [null,null,null,null,null], "format" : "encabezado_titulo", "at" : "C2" }
+            ],
+            "datagrid": [
+              {
+                "source" : {"datasource": "data","recordset_index" : 1},
+                "at" : "B3",
+                "header_format": "encabezado",
+                "header_height": 25,
+                "freeze_header" : true,
+                "alternate_colors": ["color_impar","color_par"],
+                "datacols" : [
+                        [ 1, "SPID"            , 8   , "int"          , null ],
+                        [ 2, "Status"          , 20  , "default"      , null ],
+                        [ 3, "Login"           , 16  , "default"      , null ],
+                        [ 4, "HostName"        , 12  , "default"      , null ],
+                        [11, "ProgramName"     , 60  , "default"      , null ],
+                        [ 8, "CpuTime"         , 12  , "number"       , "cpu" ]
 
-								],
-								"autofilter_column_range" : [1,6],
-								"subtotals" : [
-									{"at" : "END", "format" : "subtotal_int", "total_function" : "2" , "cols_num" : [1] },
-									{"at" : "END", "format" : "subtotal", "total_function" : "9" , "cols_num" : [6] }
-								]
-							}
-						]
-					}
-				}
-			]	
-		}
-	],
-	"formats": {
-			"default_font"		: { "font_name" : "Verdana", "font_size" : 8, "num_format" : "", "valign" : "top" },
-			"right" 			: { "align" : "right" },
-			"left" 				: { "align" : "left" },
-			"bold" 				: { "bold" : "True" },
-			"color"				: { "bg_color": "#C6EFCE" },
-			"color_impar"		: { "bg_color": "#A6EFCE" },
-			"color_par"			: { "bg_color": "#C6EFCE" },
-			"int_fmt"			: { "num_format" : "#,##0" },
-			"number2_fmt"		: { "num_format" : "#,##0.00" },
-			"default" 			: [ "default_font", "left" ] ,
-			"encabezado_titulo"	: [ "default_font", "bold", "color"],
-			"encabezado"		: [ "default_font", "bold", "color", { "bottom" : 1, "bottom_color" : "#0000FF", "text_wrap": "True", "valign": "top" }],
-			"subtotal_int" 		: [ "default_font", "right", "bold", "int_fmt" ],
-			"subtotal" 			: [ "default_font", "right", "bold", "number2_fmt" ],
-			"number" 			: [ "default_font", "right", "number2_fmt" ],
-			"int" 				: [ "default_font", "right", "int_fmt" ],
-			"numero_rojo" 		: [ "number2_fmt", { "bg_color": "#FF0000", "font_color": "#FFFFFF"}]
-	},
-	"conditional": { 
-		"cpu" : [
-				{"type": "cell", "criteria": ">", "value": 2000, "format" : "numero_rojo" }
-				]
-		}		
+                ],
+                "autofilter_column_range" : [1,6],
+                "subtotals" : [
+                  {"at" : "END", "format" : "subtotal_int", "total_function" : "2" , "cols_num" : [1] },
+                  {"at" : "END", "format" : "subtotal", "total_function" : "9" , "cols_num" : [6] }
+                ]
+              }
+            ]
+          }
+        }
+      ]  
+    }
+  ],
+  "formats": {
+      "default_font":      { "font_name" : "Verdana", "font_size" : 8, "num_format" : "", "valign" : "top" },
+      "right":             { "align" : "right" },
+      "left":              { "align" : "left" },
+      "bold":              { "bold" : "True" },
+      "color":             { "bg_color": "#C6EFCE" },
+      "color_impar":       { "bg_color": "#A6EFCE" },
+      "color_par":         { "bg_color": "#C6EFCE" },
+      "int_fmt":           { "num_format" : "#,##0" },
+      "number2_fmt":       { "num_format" : "#,##0.00" },
+      "default":           [ "default_font", "left" ] ,
+      "encabezado_titulo": [ "default_font", "bold", "color"],
+      "encabezado":        [ "default_font", "bold", "color", { "bottom" : 1, "bottom_color" : "#0000FF", "text_wrap": "True", "valign": "top" }],
+      "subtotal_int":      [ "default_font", "right", "bold", "int_fmt" ],
+      "subtotal":          [ "default_font", "right", "bold", "number2_fmt" ],
+      "number":            [ "default_font", "right", "number2_fmt" ],
+      "int":               [ "default_font", "right", "int_fmt" ],
+      "numero_rojo":       [ "number2_fmt", { "bg_color": "#FF0000", "font_color": "#FFFFFF"}]
+  },
+  "conditional": { 
+    "cpu" : [
+        {"type": "cell", "criteria": ">", "value": 2000, "format" : "numero_rojo" }
+        ]
+    }    
 }
