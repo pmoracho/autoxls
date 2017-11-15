@@ -117,7 +117,6 @@ class Engine():
 							query = properties["data_query"]
 
 					query = self.get_string_from_template(query)
-					# print(query)
 					ds = datasource(self.get_string_from_template(properties["data_connect_str"]), query)
 					self.datasources[each] = ds
 
@@ -337,7 +336,9 @@ class Engine():
 		self.info("Procesando objetos datagrid...")
 		source = objeto["source"]
 		ds = self.datasources.get(source["datasource"])
-		if ds is not None:
+		if ds is None:
+			self.error("No se ha definido el datasource {0}".format(source["datasource"]))
+		else:
 
 			rsnum = source.get("recordset_index", 1) - 1
 			data = ds.newdata(rsnum)
@@ -360,17 +361,18 @@ class Engine():
 
 				for index, titulo, width, format, conditional in header:
 
-					# Combino el formato de la columna con el del header para aplicar solo sobre el header
-					newfmt_def.update(self.formatos.get_spec(format))
-					newfmt = self.formatos.new(sha256(str(newfmt_def)), newfmt_def)
-					self.active_worksheet.write(row, col, self.get_string_from_template(titulo), newfmt)
+					if format != "v|f":
+						# Combino el formato de la columna con el del header para aplicar solo sobre el header
+						newfmt_def.update(self.formatos.get_spec(format))
+						newfmt = self.formatos.new(sha256(str(newfmt_def)), newfmt_def)
+						self.active_worksheet.write(row, col, self.get_string_from_template(titulo), newfmt)
 
-					# Configuro las columnas
-					fmt = self.formatos.get(format)
-					self.active_worksheet.set_column(col, col, width, fmt)
-					self.active_worksheet.set_row(row, header_height)
+						# Configuro las columnas
+						fmt = self.formatos.get(format)
+						self.active_worksheet.set_column(col, col, width, fmt)
+						self.active_worksheet.set_row(row, header_height)
 
-					col = col + 1
+						col = col + 1
 			else:
 				for each in ds.header():
 					self.active_worksheet.write(row, col, each, fmt_header)
@@ -387,13 +389,20 @@ class Engine():
 			data_row 	= header_row + 1
 			col 		= data_col
 			row  		= data_row
-			cols		= [index for index, titulo, width, format, conditional in header]
 
 			for record in data["rows"]:
-				for c in cols:
-					self.active_worksheet.write(row, col, record[c-1])
+				for c, f in [(index, format) for index, titulo, width, format, conditional in header]:
+					if f == "v|f":
+						pos = record[c-1].rfind('|')
+						if pos:
+							cellvalue = record[c-1][:pos]
+							format = self.formatos.get(record[c-1][pos+1:])
+							self.active_worksheet.write(row, col, cellvalue, format)
+						else:
+							self.active_worksheet.write(row, col, record[c-1])
+					else:
+						self.active_worksheet.write(row, col, record[c-1])
 					col = col + 1
-
 				row = row + 1
 				col = data_col
 
@@ -452,7 +461,9 @@ class Engine():
 		source = objeto["source"]
 		ds = self.datasources.get(source["datasource"])
 
-		if ds is not None:
+		if ds is None:
+			self.error("No se ha definido el datasource {0}".format(source["datasource"]))
+		else:
 
 			rsnum = source.get("recordset_index", 1) - 1
 			data = ds.newdata(rsnum)

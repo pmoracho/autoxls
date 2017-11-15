@@ -3,6 +3,10 @@
     "data" : {
       "data_connect_str" : "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=master;UID=<<user>>;PWD=<<passw>>",
       "data_query" : "EXEC sp_who2"
+    },
+    "data_test" : {
+      "data_connect_str" : "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=master;UID=<<user>>;PWD=<<passw>>",
+      "data_query" : "SELECT '100|numero_rojo' as 'Valor' UNION SELECT '1500|numero_otro'"
     }
   },
   "files": [
@@ -44,8 +48,28 @@
               }
             ]
           }
+        },
+		{
+        "name": "Prueba",
+        "objects": {
+          "datagrid": [
+            {
+              "source" : {"datasource": "data_test","recordset_index" : 1},
+              "at" : "B3",
+              "header_format": "encabezado",
+              "header_height": 25,
+              "freeze_header" : true,
+              "datacols" : [
+                        [ 1, "Valor"         , 12  , "v|f"       ,  null]
+                      ]
+            }
+        ]
         }
-      ]  
+        
+	
+		}
+		
+    ]  
     }
   ],
   "formats": {
@@ -65,7 +89,8 @@
       "subtotal":          [ "default_font", "right", "bold", "number2_fmt" ],
       "number":            [ "default_font", "right", "number2_fmt" ],
       "int":               [ "default_font", "right", "int_fmt" ],
-      "numero_rojo":       [ "number2_fmt", { "bg_color": "#FF0000", "font_color": "#FFFFFF"}]
+      "numero_rojo":       [ "number2_fmt", { "bg_color": "#FF0000", "font_color": "#FFFFFF"}],
+      "numero_otro":       [ "number2_fmt", { "bg_color": "#C6EFCE", "font_color": "#FFFFFF"}]
   },
   "conditional": { 
     "cpu" : [
@@ -73,3 +98,4 @@
         ]
     }    
 }
+

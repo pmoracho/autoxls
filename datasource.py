@@ -53,6 +53,9 @@ class datasource():
 		"""__del__."""
 		self.close_db()
 
+	def __str__(self):
+		return "{0}:{1}".format(self._connectstr, self._query)
+
 	def open_db(self):
 		"""open_db: open database."""
 		self._conn = pypyodbc.connect(self._connectstr)
