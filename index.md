@@ -3,7 +3,7 @@ Autoxls
 
 * [Página del proyecto](https://pmoracho.github.io/autoxls)
 * [Proyecto en github](https://github.com/pmoracho/autoxls)
-* [Descarga de ejecutable para windows](https://github.com/pmoracho/autoxls/raw/master/dist/autoxls-20171107.zip)
+* [Descarga de ejecutable para windows](https://github.com/pmoracho/autoxls/raw/master/dist/autoxls-20190329.zip)
 
 `autoxls` es una herramienta de linea de comandos para automatizar las
 generación de archivos Excel 2003 a partir de resultados obtenidos de consultas
@@ -11,6 +11,132 @@ a bases de datos. Esta basada en el uso de la excelente librería
 [XlsxWriter](https://github.com/jmcnamara/XlsxWriter), consultar la completa
 documentación de esta librería para más detalle
 
+# Empecemos
+
+Antes que nada, necesitaremos:
+
+* [Git for Windows](https://git-scm.com/download/win) instalado y funcionando
+* Una terminal de Windows, puede ser `cmd.exe`
+
+Con **Git** instalado, desde la línea de comando y con una carpeta dónde
+alojaremos este proyecto, por ejemplo `c:\proyectos`, simplemente:
+
+``` 
+c:\> c: 
+c:\> cd \proyectos 
+c:\> git clone <url del repositorio>
+c:\> cd <carpeta del repositorio>
+``` 
+
+|                       |                                           |
+| --------------------- |-------------------------------------------|
+| Repositorio           | https://github.com/pmoracho/autoxls.git |
+| Carpeta del proyecto  | .                                         |
+
+## Instalación de **Python**
+
+Para desarrollo de la herramienta es necesario, en primer término, descargar un
+interprete Python. **xls2table** ha sido desarrollado con la versión 3.6, no es
+mala idea usar esta versión, sin embargo debiera funcionar perfectamente bien
+con cualquier versión de la rama 3x.
+
+**Importante:** Si bien solo detallamos el procedimiento para entornos
+**Windows**, el proyecto es totalmente compatible con **Linux**
+
+* [Python 3.6.6 (32 bits)](https://www.python.org/ftp/python/3.6.6/python-3.6.6.exe)
+* [Python 3.6.6 (64 bits)](https://www.python.org/ftp/python/3.6.6/python-3.6.6-amd64.exe)
+
+Se descarga y se instala en el sistema el interprete **Python** deseado. A
+partir de ahora trabajaremos en una terminal de Windows (`cmd.exe`). Para
+verificar la correcta instalación, en particular que el interprete este en el `PATH`
+del sistemas, simplemente corremos `python --version`, la salida deberá
+coincidir con la versión instalada 
+
+Es conveniente pero no mandatorio hacer upgrade de la herramienta pip: `python
+-m pip install --upgrade pip`
+
+## Instalación de `Virtualenv`
+
+[Virutalenv](https://virtualenv.pypa.io/en/stable/). Es la herramienta estándar
+para crear entornos "aislados" de **Python**. En nuestro ejemplo **xls2table**,
+requiere de Python 3x y de varios "paquetes" adicionales de versiones
+específicas. Para no tener conflictos de desarrollo lo que haremos mediante
+esta herramienta es crear un "entorno virtual" en una carpeta del proyecto (que
+llamaremos `venv`), dónde una vez "activado" dicho entorno podremos instalarle
+los paquetes que requiere el proyecto. Este "entorno virtual" contendrá una
+copia completa de **Python** y los paquetes mencionados, al activarlo se
+modifica el `PATH` al `python.exe` que ahora apuntará a nuestra carpeta del
+entorno y nuestras propias librerías, evitando cualquier tipo de conflicto con un
+entorno **Python** ya existente. La instalación de `virtualenv` se hará
+mediante:
+
+```
+c:\..\> pip install virtualenv
+```
+
+## Creación y activación del entorno virtual
+
+La creación de nuestro entorno virtual se realizará mediante el comando:
+
+```
+C:\..\>  virtualenv venv --clear --prompt=[autoxls] --no-wheel
+```
+
+Para "activar" el entorno simplemente hay que correr el script de activación
+que se encontrará en la carpeta `.\venv\Scripts` (en linux sería `./venv/bin`)
+
+```
+C:\..\>  .\venv\Scripts\activate.bat
+[autoxls] C:\..\> 
+```
+
+Como se puede notar se ha cambiado el `prompt` con la indicación del entorno
+virtual activo, esto es importante para no confundir entornos si trabajamos con
+múltiples proyecto **Python** al mismo tiempo.
+
+## Instalación de requerimientos
+
+Mencionábamos que este proyecto requiere varios paquetes adicionales, la lista
+completa está definida en el archivo `requirements.txt` para instalarlos en
+nuestro entorno virtual, simplemente:
+
+```
+[autoxls] C:\..\> pip install -r requirements.txt
+```
+
+## Desarrollo
+
+Si todos los pasos anteriores fueron exitosos, podríamos verificar si la
+aplicación funciona correctamente mediante:
+
+```
+[autoxls] C:\..\> python autoxls.py
+uso: autoxls [-h] [-v] [-o "path"] [-n <level>] [-l file] [-f "archivo"]
+             [-k {'key':'value','key':'value'}] [-s] [-d]
+             ["archivo"]
+autoxls: error: debe indicar el archivo de input (--inputfile)
+
+```
+
+La ejecución sin parámetros arrojará la ayuda de la aplicación. A partir de
+aquí podríamos empezar con la etapa de desarrollo.
+
+## Generación del paquete para deploy
+
+Para distribuir la aplicación en entornos **Windows** nos apoyaremos en
+**Pyinstaller**, un modulo, instalado junto a los requerimientos, que nos
+permite crear una carpeta de distribución de la aplicación totalmente portable.
+Simplemente deberemos ejecutar el archivo `windist.bat`, al finalizar el
+procesos deberías contar con una carpeta en `.\dist\autoxls` la cual será una
+instalación totalmente portable de la herramienta, no haría falta nada más que
+copiar la misma al equipo o servidor desde dónde deseamos ejecutarla.
+
+
+* Preparar EXE para distribución
+	* `pyinstaller autoxls.py -y --onefile --noupx`
+	* El archivo final debería estar en ./dist/autoxls.exe
+
+# Documentación
 
 # Características principales
 
@@ -43,7 +169,6 @@ documentación de esta librería para más detalle
   * Alineaciones
   * formatos númericos
   * Formatos condicionales
-
 
 # Antes de empezar
 
@@ -263,132 +388,12 @@ ERROR       | Errores, alguna funcionalidad no se puede completar
 CRITICAL    | Errores serios, el programa no puede continuar
 
 # Notas para el desarrollador:
-
-## Requisitos iniciales
-
-El proyecto **autoxls** esta construido usando el lenguaje **python**, a la
-fecha no se usan librerías adicionales a las propias de python, pero de todas
-formas es recomendable preparar antes que nada, un entorno de desarrollo. A
-continuación expondremos en detalle cuales son los pasos para tener preparado
-el entorno de desarrollo. Este detalle esta orientado a la implementación sobre
-Windows 32 bits, los pasos para versiones de 64 bits son sustancialmente
-distintos, en particular por algunos de los "paquetes" que se construyen a
-partir de módulos en C o C++, de igual forma la instalación sobre Linux tiene
-sus grandes diferencias. Eventualmente profundizaremos sobre estos entornos,
-pero en principio volvemos a señalar que el siguiente detalle aplica a los
-ambientes Windows de 32 bits:
-
-* Obviamente en primer lugar necesitaremos
-  [Python](https://www.python.org/ftp/python/3.4.0/python-3.4.0.msi), por ahora
-  únicamente la versión 3.4. La correcta instalación se debe verificar desde la
-  línea de comandos: `python --version`. Si todo se instaló correctamente se
-  debe ver algo como esto `Python 3.4.0`, sino verificar que Python.exe se
-  encuentre correctamente apuntado en el PATH.
-
-* Es conveniente pero no mandatorio hacer upgrade de la herramienta pip:
-  `python -m pip install --upgrade pip`
-
-* [Virutalenv](https://virtualenv.pypa.io/en/stable/). Es la herramienta
-  estándar para crear entornos "aislados" de python. Para no tener conflictos
-  de desarrollo lo que haremos mediante esta herramienta es crear un "entorno
-  virtual" de python en una carpeta del proyecto (venv). Este "entorno virtual"
-  contendrá una copia completa de Python, al activarlo se modifica el PATH al
-  python.exe que apuntará ahora a nuestra carpeta del entorno, evitando
-  cualquier tipo de conflicto con un entorno Python ya existente. La
-  instalación de virtualenv se hara mediante `pip install virtualenv`
-
-* Descargar el proyecto desde [Github](https://github.com/pmoracho/autoxls), se
-  puede descargar desde la página el proyecto como un archivo Zip, o si
-  contamos con [Git](https://git-for-windows.github.io/) sencillamente haremos
-  un `git clone https://github.com/pmoracho/parseit`.
-
-* El proyecto una vez descomprimido o luego del clonado del repositorio tendrá
-  una estructura de directorios similar a la siguiente:
-
-```
-autoxls.git
-   |-dist
-   |-tests
-   |-tools
-```
-
-## Requerimientos adicionales
-
-`Autoxls` requiere las siguientes librerías:
-
-* [XlsxWriter](https://github.com/jmcnamara/XlsxWriter): Estupenda libreria
-  para generar archivos Excel, `pip install XlsxWriter`. 
-* [pypyodbc](https://github.com/jiangwen365/pypyodbc) para la conectividada
-  con las bases de datos: `pip install pypyodbc`
-* [pyinstaller](https://github.com/pyinstaller/pyinstaller/) solo si el
-  objetivo final es construir un ejecutable binario, esta herramienta es
-  bastante sencilla, para instalar: `pip install pyinstaller`
-
-
-## Preparación del entorno virtual local
-
-Para poder ejecutar, o crear la distribución de la herramientas, lo primero que
-deberemos hacer es armar un entorno python "virtual" que alojaremos en una
-subcarpeta del directorio principal que llamaremos "venv". En el proyecto
-incorporamos una herramienta de automatización de algunas tareas básicas. Se
-trata de `make.py`, la forma de ejecutarlo es la siguiente: `python
-tools\make.py <comando>` la ejecución si parámetros o mediante el parámetro
-`--help` arrojará una salida como lo que sigue:
-
-```bash
-Automatización de tareas para el proyecto Autoxls
-(c) 2016, Patricio Moracho <pmoracho@gmail.com>
-
-Uso: make <command> [<args>]
-
-Los comandos más usados:
-   devcheck   Hace una verificación del entorno de desarrollo
-   devinstall Realiza la instalación del entorno de desarrollo virtual e instala los requerimientos
-   docinstall Intalación de Sphinx
-   clear      Elimina archivos innecesarios
-   test       Ejecuta todos los tests definidos del proyecto
-   build      Construye la distribución binaria de las herramientas del proyecto
-
-argumentos posicionales:
-  command     Comando a ejecutar
-
-argumentos opcionales:
-  -h, --help  mostrar esta ayuda y salir
-```
-
-Para preparar el entorno virtual simplemente haremos `python tools\make.py
-devinstall`, este proceso si resulta exitoso deberá haber realizado las
-siguientes tareas:
-
-* Creación de un entorno pyhton virtual en la carpeta "venv", invocable
-  mediante `venv\Scripts\activate.bat` en Windows o `source
-  venv/Scripts/activate` en entornos Linux o Cygwin/Mingw (en Windows)
-* Instalado todas las dependencias necesarias
-
-
-## Notas adicionales:
-
-* Es recomendable y cómodo, pero entiendo que no es mandatorio, contar con un
-  entorno estilo "Linux", por ejemplo [MinGW](http://www.mingw.org/), tal como
-  dice la página del proyecto: "MinGW provides a complete Open Source
-  programming tool set which is suitable for the development of native
-  MS-Windows applications, and which do not depend on any 3rd-party C-Runtime
-  DLLs. (It does depend on a number of DLLs provided by Microsoft themselves,
-  as components of the operating system; most notable among these is
-  MSVCRT.DLL, the Microsoft C runtime library. Additionally, threaded
-  applications must ship with a freely distributable thread support DLL,
-  provided as part of MinGW itself)." De este entorno requerimos algunas
-  herramientas de desarrollo: Bash para la línea de comandos y Make para la
-  automatización de varias tareas del proyecto. 
-
-* Usar "soft tabs": Con cualquier editor que usemos configurar el uso del <tab>
-  en vez de los espacios, yo prefiero el <tab> puro al espacio, entiendo que es
-  válido el otro criterio pero ya los fuentes están con esta configuración, por
-  lo que para evitar problemas al compilar los .py recomiendo seguir usando
-  este criterio. Asimismo configurar en 4 posiciones estos <tab>.
-
 ## Change Log:
+
+#### Version 1.0.1 - 2019-03-29
+* Se agrega nueva modalidad de formateo desde los datos : `Valor|Formato`
 
 #### Version 1.0.1 - 2017-01-01
 * Fix en el objeto "Table" y se mantiene orden original de los campos de la tabla
-   
+    
+
