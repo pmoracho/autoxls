@@ -6,7 +6,7 @@
     },
     "data_test" : {
       "data_connect_str" : "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=master;UID=<<user>>;PWD=<<passw>>",
-      "data_query" : "SELECT '100|numero_rojo' as 'Valor' UNION SELECT '1500|numero_otro'"
+      "data_query" : "SELECT '100|numero_rojo' as 'Valor' UNION SELECT '1500|numero_verde' UNION SELECT '1500|numero_amarillo'"
     }
   },
   "files": [
@@ -38,7 +38,6 @@
                         [ 4, "HostName"        , 12  , "default"      , null ],
                         [11, "ProgramName"     , 60  , "default"      , null ],
                         [ 8, "CpuTime"         , 12  , "number"       , "cpu" ]
-
                 ],
                 "autofilter_column_range" : [1,6],
                 "subtotals" : [
@@ -89,8 +88,10 @@
       "subtotal":          [ "default_font", "right", "bold", "number2_fmt" ],
       "number":            [ "default_font", "right", "number2_fmt" ],
       "int":               [ "default_font", "right", "int_fmt" ],
-      "numero_rojo":       [ "number2_fmt", { "bg_color": "#FF0000", "font_color": "#FFFFFF"}],
-      "numero_otro":       [ "number2_fmt", { "bg_color": "#C6EFCE", "font_color": "#FFFFFF"}]
+	  
+      "numero_rojo":       [ "number2_fmt", "bold", { "bg_color": "#FF0000", "font_color": "#FFFFFF"}],
+      "numero_verde":      [ "number2_fmt", "bold", { "bg_color": "#0ba800", "font_color": "#FFFFFF"}],
+      "numero_amarillo":   [ "number2_fmt", "bold", { "bg_color": "#fff200", "font_color": "#FFFFFF"}]
   },
   "conditional": { 
     "cpu" : [
