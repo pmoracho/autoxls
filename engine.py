@@ -357,6 +357,7 @@ class Engine():
 
 			newfmt_def = {}
 			newfmt_def.update(fmt_header_spec)
+
 			if header != []:
 
 				for index, titulo, width, format, conditional in header:
@@ -366,13 +367,16 @@ class Engine():
 						newfmt_def.update(self.formatos.get_spec(format))
 						newfmt = self.formatos.new(sha256(str(newfmt_def)), newfmt_def)
 						self.active_worksheet.write(row, col, self.get_string_from_template(titulo), newfmt)
-
 						# Configuro las columnas
 						fmt = self.formatos.get(format)
 						self.active_worksheet.set_column(col, col, width, fmt)
-						self.active_worksheet.set_row(row, header_height)
+					else:
+						self.active_worksheet.write(row, col, self.get_string_from_template(titulo), fmt_header)
 
-						col = col + 1
+					self.active_worksheet.set_row(row, header_height)
+					col = col + 1
+
+
 			else:
 				for each in ds.header():
 					self.active_worksheet.write(row, col, each, fmt_header)
