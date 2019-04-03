@@ -372,6 +372,7 @@ class Engine():
 						self.active_worksheet.set_column(col, col, width, fmt)
 					else:
 						self.active_worksheet.write(row, col, self.get_string_from_template(titulo), fmt_header)
+						self.active_worksheet.set_column(col, col, width)
 
 					self.active_worksheet.set_row(row, header_height)
 					col = col + 1

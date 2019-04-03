@@ -59,7 +59,7 @@
               "header_height": 25,
               "freeze_header" : true,
               "datacols" : [
-                        [ 1, "Valor"         , 12  , "v|f"       ,  null]
+                        [ 1, "Valor"         , 22  , "v|f"       ,  null]
                       ]
             }
         ]
