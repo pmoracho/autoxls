@@ -312,10 +312,10 @@ class Engine():
 
 		self.info("Objetos text")
 
-		at 		= objeto.get("at")
-		texto 	= self.get_string_from_template(objeto.get("text", None))
-		format 	= objeto.get("format")
-		mrange	= objeto.get("merge_range")
+		at 		 = objeto.get("at")
+		texto 	 = self.get_string_from_template(objeto.get("text", None))
+		format 	 = objeto.get("format")
+		mrange	 = objeto.get("merge_range")
 		if texto and at:
 			if mrange:
 				self.active_worksheet.merge_range(mrange, texto, self.formatos.get(format))
@@ -335,6 +335,7 @@ class Engine():
 
 		self.info("Procesando objetos datagrid...")
 		source = objeto["source"]
+		altcolor = objeto.get("alternate_colors")
 		ds = self.datasources.get(source["datasource"])
 		if ds is None:
 			self.error("No se ha definido el datasource {0}".format(source["datasource"]))
@@ -358,6 +359,9 @@ class Engine():
 			newfmt_def = {}
 			newfmt_def.update(fmt_header_spec)
 
+			"""
+			Header: Titulos
+			"""
 			if header != []:
 
 				for index, titulo, width, format, conditional in header:
@@ -394,20 +398,38 @@ class Engine():
 			data_row 	= header_row + 1
 			col 		= data_col
 			row  		= data_row
-
 			for record in data["rows"]:
 				for c, f in [(index, format) for index, titulo, width, format, conditional in header]:
+
+					list_fmt = []
 					if f == "v|f":
 						pos = record[c-1].rfind('|')
 						if pos:
+							cellformat = record[c-1][pos+1:]
 							cellvalue = record[c-1][:pos]
-							format = self.formatos.get(record[c-1][pos+1:])
-							self.active_worksheet.write(row, col, cellvalue, format)
 						else:
-							self.active_worksheet.write(row, col, record[c-1])
+							cellformat = f
+							cellvalue =  record[c-1]
 					else:
-						self.active_worksheet.write(row, col, record[c-1])
+						cellformat = f
+						cellvalue =  record[c-1]
+
+					if altcolor:
+						color = altcolor[1] if row % 2 == 0 else altcolor[0]
+						list_fmt.append(color)					
+
+					list_fmt.append(cellformat)					
+
+					# print(list_fmt)
+					# print(self.formatos.get_new_spec_from_list(list_fmt))
+
+					cellfmt = self.formatos.get_new_spec_from_list(list_fmt)
+
+					fmt = self.formatos.new(sha256(str(cellfmt)), cellfmt)
+					self.active_worksheet.write(row, col, cellvalue, fmt)
+					
 					col = col + 1
+
 				row = row + 1
 				col = data_col
 

@@ -95,7 +95,7 @@
   },
   "conditional": { 
     "cpu" : [
-        {"type": "cell", "criteria": ">", "value": 2000, "format" : "numero_rojo" }
+        {"type": "cell", "criteria": ">", "value": 1000, "format" : "numero_rojo" }
         ]
     }    
 }

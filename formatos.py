@@ -69,6 +69,9 @@ class Formatos():
 						d.update(atributo)
 
 				self._formats[k] = d
+		
+		# print(self)
+
 
 	def __str__(self):
 		return ',\n'.join("{!s}={!r}".format(key, val) for (key, val) in self._formats.items())
@@ -107,6 +110,14 @@ class Formatos():
 
 	def get_spec(self, name):
 		return self._formats.get(name)
+
+	def get_new_spec_from_list(self, lista):
+
+		d = {}
+		for name in lista:
+			d.update(self._formats.get(name))
+
+		return(d)
 
 	def get(self, name):
 		"""
