@@ -245,6 +245,10 @@ class Engine():
 		for o in objects.get("formulas", []):
 			self.insert_formula(o)
 
+		for o in objects.get("text_end", []):
+			self.insert_text(o)
+					
+
 	def cast_text(self, text, type):
 		"""cast_text: Castea un string a alguno de los tipos básicos."""
 		casters = {
@@ -418,10 +422,7 @@ class Engine():
 						color = altcolor[1] if row % 2 == 0 else altcolor[0]
 						list_fmt.append(color)					
 
-					list_fmt.append(cellformat)					
-
-					# print(list_fmt)
-					# print(self.formatos.get_new_spec_from_list(list_fmt))
+					list_fmt.append(cellformat)
 
 					cellfmt = self.formatos.get_new_spec_from_list(list_fmt)
 

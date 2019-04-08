@@ -20,6 +20,9 @@
             "text": [
               { "text" : "Resultado del sp_who ejecutado el <<Now>> en <<server>>", "format" : "encabezado_titulo", "at" : "B2" }
             ],
+            "text_end": [
+              { "text" : "Pisamos el data grid", "format" : "encabezado_titulo", "at" : "B4" }
+            ],
             "text_rows": [
               { "text" : [null,null,null,null,null], "format" : "encabezado_titulo", "at" : "C2" }
             ],
