@@ -307,7 +307,7 @@ haremos escribiendo un archivo JSON similar a este:
     "cpu" : [
         {"type": "cell", "criteria": ">", "value": 2000, "format" : "numero_rojo" }
         ]
-    }    
+    }
 }
 
 ```
@@ -324,7 +324,7 @@ Hay dos formas de hacer esto, mediante un archivo de keywords, que llamaremos
 `keywords.json`, pero puede ser cualquier nombre, un texto Ascii estándar con
 el siguiente formato:
 
-```
+```javascript
 { 	
 	"server" 			: "servidor",
 	"user" 				: "miusuario",
@@ -347,7 +347,7 @@ preconfiguraralos en un archivo así:
 Para el objeto `sheet` se puede definir el nodo hijo `print` que configura
 varias opciones para el manejo de la impresión de la planilla:
 
-```css
+```javascript
           "print": {
               "landscape": false,
               "paper": 9,
@@ -356,60 +356,76 @@ varias opciones para el manejo de la impresión de la planilla:
               "footer": ["&L&F &R&P de &N",],
               "grid": true,
               "print_area": ["FR","FC","ER","EC"],
-              "fit_to_pages": [0, 1]
+              "fit_to_pages": [0, 1],
+              "center_horizontally": false,
+              "center_vertically": false
           },
 ```
 
-* **`landscape`**: `true`, para configurara la orientación apaisada, la opción
-  por defecto es **`portrait`** 
+* **`landscape`**: `true`, para configurar la orientación apaisada, la opción
+  por defecto es **`portrait`**.
 
 * **`paper`**: Tamaño del papel, por defecto es **A4**, la configuraciones posibles son:
 
 
-        | Index | Paper format	        | Paper size            |
-        |------ | --------------------  | --------------------- |
-        | 0	    | Printer default	    | Printer default       |
-        | 1	    | Letter	            | 8 1/2 x 11 in         |
-        | 2	    | Letter                | Small	8 1/2 x 11 in   |
-        | 3	    | Tabloid	            | 11 x 17 in            |
-        | 4	    | Ledger	            | 17 x 11 in            |
-        | 5	    | Legal	                | 8 1/2 x 14 in         |
-        | 6	    | Statement	            | 5 1/2 x 8 1/2 in      |
-        | 7	    | Executive	            | 7 1/4 x 10 1/2 in     |
-        | 8	    | A3	                | 297 x 420 mm          |
-        | 9	    | A4	                | 210 x 297 mm          |
-        | 10	| A4                    | Small	210 x 297 mm    |
-        | 11	| A5	                | 148 x 210 mm          |
-        | 12	| B4	                | 250 x 354 mm          |
-        | 13	| B5	                | 182 x 257 mm          |
-        | 14	| Folio	                | 8 1/2 x 13 in         |
-        | 15	| Quarto	            | 215 x 275 mm          |
-        | 16	| —	                    | 10x14 in              |
-        | 17	| —	                    | 11x17 in              |
-        | 18	| Note	                | 8 1/2 x 11 in         |
-        | 19	| Envelope 9            | 3 7/8 x 8 7/8         |
-        | 20	| Envelope 10           | 10 4 1/8 x 9 1/2      |
-        | 21	| Envelope 11	        | 4 1/2 x 10 3/8        |
-        | 22	| Envelope 12	        | 4 3/4 x 11            |
-        | 23	| Envelope 14	        | 5 x 11 1/2            |
-        | 24	| C size sheet	        | —                     |
-        | 25	| D size sheet	        | —                     |
-        | 26	| E size sheet	        | —                     |
-        | 27	| Envelope DL	        | 110 x 220 mm          |
-        | 28	| Envelope C3	        | 324 x 458 mm          |
-        | 29	| Envelope C4	        | 229 x 324 mm          |
-        | 30	| Envelope C5	        | 162 x 229 mm          |
-        | 31	| Envelope C6	        | 114 x 162 mm          |
-        | 32	| Envelope C65	        | 114 x 229 mm          |
-        | 33	| Envelope B4	        | 250 x 353 mm          |
-        | 34	| Envelope B5	        | 176 x 250 mm          |
-        | 35	| Envelope B6	        | 176 x 125 mm          |
-        | 36	| Envelope	            | 110 x 230 mm          |
-        | 37	| Monarch	            | 3.875 x 7.5 in        |
-        | 38	| Envelope	            | 3 5/8 x 6 1/2 in      |
-        | 39	| Fanfold	            | 14 7/8 x 11 in        |
-        | 40	| German Std Fanfold    | 	8 1/2 x 12 in       |
-        | 41	| German Legal Fanfold  | 	8 1/2 x 13 in       |
+| Index | Paper format	        | Paper size            |
+|------ | --------------------  | --------------------- |
+| 0	    | Printer default	    | Printer default       |
+| 1	    | Letter	            | 8 1/2 x 11 in         |
+| 2	    | Letter                | Small	8 1/2 x 11 in   |
+| 3	    | Tabloid	            | 11 x 17 in            |
+| 4	    | Ledger	            | 17 x 11 in            |
+| 5	    | Legal	                | 8 1/2 x 14 in         |
+| 6	    | Statement	            | 5 1/2 x 8 1/2 in      |
+| 7	    | Executive	            | 7 1/4 x 10 1/2 in     |
+| 8	    | A3	                | 297 x 420 mm          |
+| 9	    | A4	                | 210 x 297 mm          |
+| 10	| A4                    | Small	210 x 297 mm    |
+| 11	| A5	                | 148 x 210 mm          |
+| 12	| B4	                | 250 x 354 mm          |
+| 13	| B5	                | 182 x 257 mm          |
+| 14	| Folio	                | 8 1/2 x 13 in         |
+| 15	| Quarto	            | 215 x 275 mm          |
+| 16	| —	                    | 10x14 in              |
+| 17	| —	                    | 11x17 in              |
+| 18	| Note	                | 8 1/2 x 11 in         |
+| 19	| Envelope 9            | 3 7/8 x 8 7/8         |
+| 20	| Envelope 10           | 10 4 1/8 x 9 1/2      |
+| 21	| Envelope 11	        | 4 1/2 x 10 3/8        |
+| 22	| Envelope 12	        | 4 3/4 x 11            |
+| 23	| Envelope 14	        | 5 x 11 1/2            |
+| 24	| C size sheet	        | —                     |
+| 25	| D size sheet	        | —                     |
+| 26	| E size sheet	        | —                     |
+| 27	| Envelope DL	        | 110 x 220 mm          |
+| 28	| Envelope C3	        | 324 x 458 mm          |
+| 29	| Envelope C4	        | 229 x 324 mm          |
+| 30	| Envelope C5	        | 162 x 229 mm          |
+| 31	| Envelope C6	        | 114 x 162 mm          |
+| 32	| Envelope C65	        | 114 x 229 mm          |
+| 33	| Envelope B4	        | 250 x 353 mm          |
+| 34	| Envelope B5	        | 176 x 250 mm          |
+| 35	| Envelope B6	        | 176 x 125 mm          |
+| 36	| Envelope	            | 110 x 230 mm          |
+| 37	| Monarch	            | 3.875 x 7.5 in        |
+| 38	| Envelope	            | 3 5/8 x 6 1/2 in      |
+| 39	| Fanfold	            | 14 7/8 x 11 in        |
+| 40	| German Std Fanfold    | 	8 1/2 x 12 in       |
+| 41	| German Legal Fanfold  | 	8 1/2 x 13 in       |
+
+(*) no todos estos valores estarán disponibles siempre ya que dependen de la
+impresora
+
+
+* **`margins`***: Una lista  del tipo `[left, right, top, bottom]` cada unidad
+  expresada en pulgadas 
+
+* **`header`** y **`footer`**: Para definir el encabezado y pie de página. En
+  cada caso se trata de una lista del tipo `[texto, opciones]`. `texto` es una
+  cadena con el texto a definir, más ciertos caracteres de control. Para más
+  información consultar en: [The Worksheet Class (Page
+  Setup)](https://xlsxwriter.readthedocs.io/page_setup.html)
+
 
 # Ejecución
 

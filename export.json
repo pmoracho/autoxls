@@ -25,7 +25,9 @@
               "grid": true,
               "print_area": "auto",
               "print_scale": 70,
-              "fit_to_pages": [0, 1]
+              "fit_to_pages": [0, 1],
+              "center_horizontally": false,
+              "center_vertically": false
           },
           "objects": {
             "text": [

@@ -457,9 +457,7 @@ class Engine():
 				self._setup_boundaries_rc(row-1, col-1)
 				col = data_col
 
-
 			total_rows	= row - data_row
-
 
 			"""
 			Sub Totales
@@ -555,9 +553,6 @@ class Engine():
 		"""set_print_options: Configura opciones de impresión."""
 
 		self.info("Configuración de opciones de impresión")
-
-		if objeto.get("landscape", False):
-			self.active_worksheet.set_landscape()
 		
 		self.active_worksheet.set_paper(objeto.get("paper", 0))
 		
@@ -570,10 +565,17 @@ class Engine():
 		t, o = objeto.get("footer", ["", None])
 		self.active_worksheet.set_footer(t, o)
 
-		self.active_worksheet.set_footer(t, o)
+		if objeto.get("landscape", False):
+			self.active_worksheet.set_landscape()
 
 		if objeto.get("grid", False):
 			self.active_worksheet.hide_gridlines()
+
+		if objeto.get("center_horizontally", False):
+			self.active_worksheet.center_horizontally()
+
+		if objeto.get("center_vertically", False):
+			self.active_worksheet.center_vertically()
 
 		pa = objeto.get("print_area", "auto")
 		if pa:
