@@ -559,7 +559,7 @@ class Engine():
 		if objeto.get("landscape", False):
 			self.active_worksheet.set_landscape()
 		
-		self.active_worksheet.set_paper(objeto.get("paper", 9))
+		self.active_worksheet.set_paper(objeto.get("paper", 0))
 		
 		l, r, t, b = objeto.get("margins", [0.7,0.7,0.75,0.75])
 		self.active_worksheet.set_margins(l, r, t, b)
