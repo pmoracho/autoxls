@@ -3,7 +3,7 @@ Autoxls
 
 * [Página del proyecto](https://pmoracho.github.io/autoxls)
 * [Proyecto en github](https://github.com/pmoracho/autoxls)
-* [Descarga de ejecutable para windows](https://github.com/pmoracho/autoxls/raw/master/dist/autoxls-20190403.zip)
+* [Descarga de ejecutable para windows](https://github.com/pmoracho/autoxls/raw/master/dist/autoxls-20190503.zip)
 
 `autoxls` es una herramienta de linea de comandos para automatizar las
 generación de archivos Excel 2003 a partir de resultados obtenidos de consultas
@@ -27,12 +27,6 @@ c:\> cd \proyectos
 c:\> git clone <url del repositorio>
 c:\> cd <carpeta del repositorio>
 ``` 
-
-|                       |                                                                                       |
-| --------------------- |---------------------------------------------------------------------------------------|
-| Repositorio           | https://github.com/pmoracho/autoxls.git                                               |
-| Carpeta del proyecto  | .                                                                                     |
-| Binarios              | [20190503](https://github.com/pmoracho/autoxls/raw/master/dist/autoxls-20190503.zip)  |
 
 ## Instalación de **Python**
 
