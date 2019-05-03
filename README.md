@@ -28,10 +28,11 @@ c:\> git clone <url del repositorio>
 c:\> cd <carpeta del repositorio>
 ``` 
 
-|                       |                                           |
-| --------------------- |-------------------------------------------|
-| Repositorio           | https://github.com/pmoracho/autoxls.git |
-| Carpeta del proyecto  | .                                         |
+|                       |                                                                                       |
+| --------------------- |---------------------------------------------------------------------------------------|
+| Repositorio           | https://github.com/pmoracho/autoxls.git                                               |
+| Carpeta del proyecto  | .                                                                                     |
+| Binarios              | [20190503](https://github.com/pmoracho/autoxls/raw/master/dist/autoxls-20190503.zip)  |
 
 ## Instalación de **Python**
 
