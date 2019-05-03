@@ -23,8 +23,8 @@
               "header": ["&C&A", null],
               "footer": ["&L&F &R&P de &N", null],
               "grid": true,
-              "print_area": "auto",
-              "print_scale": 70,
+              "area": "auto",
+              "scale": 70,
               "fit_to_pages": [0, 1],
               "center_horizontally": false,
               "center_vertically": false

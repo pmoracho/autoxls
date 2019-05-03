@@ -577,7 +577,7 @@ class Engine():
 		if objeto.get("center_vertically", False):
 			self.active_worksheet.center_vertically()
 
-		pa = objeto.get("print_area", "auto")
+		pa = objeto.get("area", "auto")
 		if pa:
 			if isinstance(pa, str):
 				if pa == "auto":
@@ -592,7 +592,7 @@ class Engine():
 		w, h = objeto.get("footer", [1, 1])
 		self.active_worksheet.fit_to_pages(w, h)
 
-		self.active_worksheet.set_print_scale(objeto.get("print_scale", 100))
+		self.active_worksheet.set_print_scale(objeto.get("scale", 100))
 
 		pass
 													

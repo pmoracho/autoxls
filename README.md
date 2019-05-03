@@ -145,30 +145,35 @@ copiar la misma al equipo o servidor desde dónde deseamos ejecutarla.
 * Capacidad de procesar múltiples recordsets a partir de una única consulta
 * Generáción automatizada de uno o más archivos Excel por ejecución
 * Los archivos generados pueden salvarse en:
-  * Una carpeta definida
-  * El escritorio del usuario `{Desktop}`
-  * Una carpeta temporal `{Tmp}`
-  * Abrirse automáticamente
+    * Una carpeta definida
+    * El escritorio del usuario `{Desktop}`
+    * Una carpeta temporal `{Tmp}`
+    * Abrirse automáticamente
 * Definición dinámica de nombres y textos a partir de "keywords" definidas en
   la invocación o por un archivo externo de keywords, puede aplicar:
-  * Nombre del archivo
-  * Nombres de las solapas
-  * Textos en la planilla
-  * Parámetros de invocación de la consulta
-  * Datos de la conexión: servidor, usuario, contraseña
+    * Nombre del archivo
+    * Nombres de las solapas
+    * Textos en la planilla
+    * Parámetros de invocación de la consulta
+    * Datos de la conexión: servidor, usuario, contraseña
 * Definir multiples solapas por archivo
 * Automatizar la generación de múltiples objetos
-  * textos y filas completas
-  * formulas
-  * grillas de datos o tablas
-  * Autofiltros
+    * textos y filas completas
+    * formulas
+    * grillas de datos o tablas
+    * Autofiltros
 * Definir formatos de los objetos
-  * anchos de columnas
-  * colores
-  * tipos de letra / tamaño
-  * Alineaciones
-  * formatos númericos
-  * Formatos condicionales
+    * anchos de columnas
+    * colores
+    * tipos de letra / tamaño
+    * Alineaciones
+    * formatos númericos
+    * Formatos condicionales
+* Configuración de opciones de impresión
+    * Orientación
+    * Escala
+    * Area
+    * Header y footers
 
 # Antes de empezar
 
@@ -355,7 +360,8 @@ varias opciones para el manejo de la impresión de la planilla:
               "header": ["&C&A",],
               "footer": ["&L&F &R&P de &N",],
               "grid": true,
-              "print_area": ["FR","FC","ER","EC"],
+              "area": ["FR","FC","ER","EC"],
+              "scale": 70,
               "fit_to_pages": [0, 1],
               "center_horizontally": false,
               "center_vertically": false
@@ -426,6 +432,20 @@ impresora
   información consultar en: [The Worksheet Class (Page
   Setup)](https://xlsxwriter.readthedocs.io/page_setup.html)
 
+* **`grid`**: Para establecer la impresión de la grilla de fondo.
+
+* **`area`**: Para establecer el área de impresión. Hay do formas de
+  configurara esto:
+    - Mediante la cadena **`"auto"`** dónde el área se calcula autmáticamente
+      para cubrir todo el contenido generado. Esta debeira ser la configuración
+      más común
+    - Mediante una lista de formato: `[first_row, first_col, last_row, last_col]`
+      dónde deberemos establecer nosotros la coordenadas del área.
+
+* **`scale`**: Para definir el escalado del contenido al imprimir, definido
+  como porcentaje de aumento o reducción, los valores válidos van de 10 a 400.
+  **Atención**: No hay forma de configurar un valor de ajuste "automático",
+  este dato, en realidad es un valor que calcula el Excel.
 
 # Ejecución
 
