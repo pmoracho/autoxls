@@ -70,6 +70,11 @@ class Engine():
 		self.datasources		= {}
 		self.regex				= ""
 		self.now 				= datetime.datetime.now()
+		
+		self.fr					= 9999999
+		self.fc					= 9999999
+		self.er					= 0
+		self.ec					= 0
 
 		keywords["Now"] 		= self.now.strftime("%Y-%m-%d %H:%M:%S")
 		self.keywords 			= dict((("<<%s>>" % key), value) for key, value in keywords.items())
@@ -237,7 +242,6 @@ class Engine():
 				self.insert_table(o)
 		except Exception as e:
 			self.error(u"Ocurrio el error %s al intentar crear los objetos [table]" % (str(e)))
-			# Imposible castear del dato
 
 		for o in objects.get("datagrid", []):
 			self.insert_datagrid(o)
@@ -247,7 +251,10 @@ class Engine():
 
 		for o in objects.get("text_end", []):
 			self.insert_text(o)
-					
+
+		print_settings = sheet.get("print", None)
+		if print_settings:
+			self.set_print_options(print_settings)
 
 	def cast_text(self, text, type):
 		"""cast_text: Castea un string a alguno de los tipos básicos."""
@@ -284,6 +291,8 @@ class Engine():
 			if not texto and at:
 				self.active_worksheet.write_blank(at, '', self.formatos.get(format))
 
+		self._setup_boundaries_at(at)
+		
 	def insert_formula(self, objeto):
 		"""insert_formula. Inserta una formula."""
 
@@ -294,6 +303,8 @@ class Engine():
 		fmt 	= self.formatos.get(objeto.get("format", None))
 		if at and formula and fmt:
 			self.active_worksheet.write_formula(at, formula, fmt)
+
+		self._setup_boundaries_at(at)
 
 	def insert_text_rows(self, objeto):
 		"""insert_text_rows: Inserta filas con texto."""
@@ -310,6 +321,9 @@ class Engine():
 				self.active_worksheet.write(at, t, format)
 			else:
 				self.active_worksheet.write_blank(at, '', format)
+
+			self._setup_boundaries_rc(row=row, col=col + i)
+
 
 	def insert_text(self, objeto):
 		"""insert_text: Inserta un texto."""
@@ -328,6 +342,8 @@ class Engine():
 		else:
 			if not texto and at:
 				self.active_worksheet.write_blank(at, '', self.formatos.get(format))
+
+		self._setup_boundaries_at(at)
 
 	def insert_datagrid(self, objeto):
 		"""insert_datagrid: Inserta una grilla.
@@ -357,6 +373,9 @@ class Engine():
 
 			col = header_col
 			row = header_row
+
+			self._setup_boundaries_rc(row, col)
+
 			header = objeto.get("datacols", [])
 			header_height = objeto.get("header_height", 30)
 
@@ -390,6 +409,8 @@ class Engine():
 				for each in ds.header():
 					self.active_worksheet.write(row, col, each, fmt_header)
 					col = col + 1
+
+			self._setup_boundaries_rc(row, col-1)
 
 			if objeto.get("freeze_header", False):
 				self.active_worksheet.freeze_panes(header_row + 1, 0)  # Freeze the first row.
@@ -431,10 +452,14 @@ class Engine():
 					
 					col = col + 1
 
+
 				row = row + 1
+				self._setup_boundaries_rc(row-1, col-1)
 				col = data_col
 
+
 			total_rows	= row - data_row
+
 
 			"""
 			Sub Totales
@@ -444,6 +469,9 @@ class Engine():
 				self.info("Creando subtotales...")
 				for subtotal in subtotales:
 					at = subtotal.get("at")
+					
+					# self._setup_boundaries_at(at)
+
 					fmt_formula = self.formatos.get(subtotal.get("format"))
 					funcion = subtotal.get("total_function")
 					col_num = subtotal.get("cols_num")
@@ -452,6 +480,8 @@ class Engine():
 						formula = "=SUBTOTAL(%s,%s)" % (funcion, rango)
 						if at == "END":
 							at = xl_range(row, data_col + eachcol - 1, row, data_col + eachcol - 1)
+							self._setup_boundaries_rc(row, data_col + eachcol - 1)
+							
 						self.active_worksheet.write_formula(at, formula, fmt_formula, -342047.61)
 
 			"""
@@ -481,6 +511,9 @@ class Engine():
 								self.active_worksheet.conditional_format(cell, filtered_dict)
 				col = col + 1
 
+		# self._setup_boundaries(row=row, col=col)
+
+
 	def insert_table(self, objeto):
 		"""insert_table: Inserta una tabla."""
 
@@ -496,6 +529,7 @@ class Engine():
 			rsnum = source.get("recordset_index", 1) - 1
 			data = ds.newdata(rsnum)
 			row, col = xl_cell_to_rowcol(objeto.get("at"))
+			self._setup_boundaries_rc(row, col)
 
 			fmt_header = self.formatos.get(objeto.get("header_format"))
 
@@ -515,6 +549,52 @@ class Engine():
 												'columns': header,
 											})
 
+			self._setup_boundaries_rc(row + len(data["rows"]), col + len(data["colnames"]) - 1)
+											
+	def set_print_options(self, objeto):
+		"""set_print_options: Configura opciones de impresión."""
+
+		self.info("Configuración de opciones de impresión")
+
+		if objeto.get("landscape", False):
+			self.active_worksheet.set_landscape()
+		
+		self.active_worksheet.set_paper(objeto.get("paper", 9))
+		
+		l, r, t, b = objeto.get("margins", [0.7,0.7,0.75,0.75])
+		self.active_worksheet.set_margins(l, r, t, b)
+
+		t, o = objeto.get("header", ["", None])
+		self.active_worksheet.set_header(t, o)
+
+		t, o = objeto.get("footer", ["", None])
+		self.active_worksheet.set_footer(t, o)
+
+		self.active_worksheet.set_footer(t, o)
+
+		if objeto.get("grid", False):
+			self.active_worksheet.hide_gridlines()
+
+		pa = objeto.get("print_area", "auto")
+		if pa:
+			if isinstance(pa, str):
+				if pa == "auto":
+					fr, fc, er, ec = (self.fr, self.fc, self.er, self.ec)
+
+			else:
+				if isinstance(pa, list):
+					fr, fc, er, ec = pa
+
+		self.active_worksheet.print_area(fr, fc, er, ec)
+
+		w, h = objeto.get("footer", [1, 1])
+		self.active_worksheet.fit_to_pages(w, h)
+
+		self.active_worksheet.set_print_scale(objeto.get("print_scale", 100))
+
+		pass
+													
+
 	def _normalize_filename(self, filename):
 		"""_normalize_filename: Generates an slightly worse ASCII-only slug.
 
@@ -527,3 +607,16 @@ class Engine():
 		"""
 		valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
 		return ''.join(c for c in filename if c in valid_chars)
+
+	def _setup_boundaries_at(self, at):
+
+		row, col 	= xl_cell_to_rowcol(at)
+		self._setup_boundaries_rc(row, col)
+
+	def _setup_boundaries_rc(self, row, col):
+
+		self.fr		= row if row < self.fr else self.fr
+		self.fc		= col if col < self.fc else self.fc
+		self.er		= row if row > self.er else self.er
+		self.ec		= col if col > self.ec else self.ec
+		

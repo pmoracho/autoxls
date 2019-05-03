@@ -16,6 +16,17 @@
         {
           "name": "sp_who2 on <<server>>",
           "default_row_height" : 11.5 ,
+          "print": {
+              "landscape": false,
+              "paper": 9,
+              "margins": [0.3,0.2,0.15,0.15],
+              "header": ["&C&A", null],
+              "footer": ["&L&F &R&P de &N", null],
+              "grid": true,
+              "print_area": "auto",
+              "print_scale": 70,
+              "fit_to_pages": [0, 1]
+          },
           "objects": {
             "text": [
               { "text" : "Resultado del sp_who ejecutado el <<Now>> en <<server>>", "format" : "encabezado_titulo", "at" : "B2" }
