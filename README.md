@@ -9,7 +9,7 @@ Autoxls
 generación de archivos Excel 2003 a partir de resultados obtenidos de consultas
 a bases de datos. Esta basada en el uso de la excelente librería
 [XlsxWriter](https://github.com/jmcnamara/XlsxWriter), consultar la completa
-documentación de esta librería para más detalle
+documentación de esta librería para más detalle.
 
 # Empecemos
 
@@ -318,7 +318,7 @@ haremos escribiendo un archivo JSON similar a este:
 ```
 
 Lo llamaremos `export.json` pero puede ser cualquier nombre. Para generar
-el excel a partir de la anterior definición, deberemos además establecer los
+el **Excel** a partir de la anterior definición, deberemos además establecer los
 keywords del proceso:
 
 * `<<server>>` El servidor de base de datos
@@ -436,8 +436,8 @@ impresora
 
 * **`area`**: Para establecer el área de impresión. Hay do formas de
   configurara esto:
-    - Mediante la cadena **`"auto"`** dónde el área se calcula autmáticamente
-      para cubrir todo el contenido generado. Esta debeira ser la configuración
+    - Mediante la cadena **`"auto"`** dónde el área se calcula automáticamente
+      para cubrir todo el contenido generado. Esta debiera ser la configuración
       más común
     - Mediante una lista de formato: `[first_row, first_col, last_row, last_col]`
       dónde deberemos establecer nosotros la coordenadas del área.
@@ -492,7 +492,11 @@ ERROR       | Errores, alguna funcionalidad no se puede completar
 CRITICAL    | Errores serios, el programa no puede continuar
 
 # Notas para el desarrollador:
+
 ## Change Log:
+
+#### Version 1.0.2 - 2019-05-03
+* Se agregan opciones dee configuración de impresión
 
 #### Version 1.0.1 - 2019-03-29
 * Se agrega nueva modalidad de formateo desde los datos : `Valor|Formato`
