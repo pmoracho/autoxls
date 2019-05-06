@@ -589,7 +589,7 @@ class Engine():
 
 		self.active_worksheet.print_area(fr, fc, er, ec)
 
-		w, h = objeto.get("footer", [1, 1])
+		w, h = objeto.get("fit_to_pages", [1, 1])
 		self.active_worksheet.fit_to_pages(w, h)
 
 		self.active_worksheet.set_print_scale(objeto.get("scale", 100))
