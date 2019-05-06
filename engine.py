@@ -559,13 +559,15 @@ class Engine():
 		l, r, t, b = objeto.get("margins", [0.7,0.7,0.75,0.75])
 		self.active_worksheet.set_margins(l, r, t, b)
 
-		t, o = objeto.get("header", ["", None])
-		t = self.get_string_from_template(t)
-		self.active_worksheet.set_header(t, o)
+		t, o = objeto.get("header", [None, None])
+		if t:
+			t = self.get_string_from_template(t)
+			self.active_worksheet.set_header(t, o)
 
-		t, o = objeto.get("footer", ["", None])
-		t = self.get_string_from_template(t)
-		self.active_worksheet.set_footer(t, o)
+		t, o = objeto.get("footer", [None, None])
+		if t:
+			t = self.get_string_from_template(t)
+			self.active_worksheet.set_footer(t, o)
 
 		if objeto.get("landscape", False):
 			self.active_worksheet.set_landscape()

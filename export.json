@@ -19,10 +19,10 @@
           "print": {
               "landscape": false,
               "paper": 9,
-              "margins": [0.3,0.2,0.15,0.15],
-              "header": ["&C&A", null],
-              "footer": ["&L&F &R&P de &N", null],
+              "margins": [0.3,0.2,0.5,0.15],
               "grid": true,
+              "header": ["&C&A <<server>>", null],
+              "footer": ["&L&F &R&P de &N (<<server>>)", null],
               "area": "auto",
               "scale": 70,
               "fit_to_pages": [0, 1],
