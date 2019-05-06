@@ -5,8 +5,8 @@ Autoxls
 * [Proyecto en github](https://github.com/pmoracho/autoxls)
 * [Descarga de ejecutable para windows](https://github.com/pmoracho/autoxls/raw/master/dist/autoxls-20190503.zip)
 
-`autoxls` es una herramienta de linea de comandos para automatizar las
-generación de archivos Excel 2003 a partir de resultados obtenidos de consultas
+**`autoxls`** es una herramienta de linea de comandos para automatizar las
+generación de archivos **Excel 2003** a partir de resultados obtenidos de consultas
 a bases de datos. Esta basada en el uso de la excelente librería
 [XlsxWriter](https://github.com/jmcnamara/XlsxWriter), consultar la completa
 documentación de esta librería para más detalle.
@@ -129,11 +129,11 @@ copiar la misma al equipo o servidor desde dónde deseamos ejecutarla.
 
 * Preparar EXE para distribución
 	* `pyinstaller autoxls.py -y --onefile --noupx`
-	* El archivo final debería estar en ./dist/autoxls.exe
+	* El archivo final debería estar en `./dist/autoxls.exe`
 
 # Documentación
 
-# Características principales
+## Características principales
 
 * Múltiples conexiones a bases de datos
 * Múltiples consultas/querys/Stored procedures
@@ -170,7 +170,7 @@ copiar la misma al equipo o servidor desde dónde deseamos ejecutarla.
     * Area
     * Header y footers
 
-# Antes de empezar
+## Antes de empezar
 
 Para comenzar, antes de probar la ejecución de esta herramienta, es necesario
 escribir un archivo de definición de la exportación a realizar. Este no es más
@@ -187,11 +187,11 @@ Este archivo definirá los siguientes elementos:
   * **data\_query**: que define la correspondiente consulta. Podrá ser una
     "query" común o directamente la ejecución de un stored procedure.
   * **data\_query\_file**: Archivo dónde encontramos la consulta SQL.
-  
+
 * **files**:  Que define la generación de uno o más archivos Excel. Por cada archivo se podrá definir una o más:
-  
+ 
   * **sheets**: Es decir, solapas de la planilla, por cada una de estas se pueden definir varios objetos Excel:
-    
+
     * **text**: Texto estático, normalmente titulos, se define la celda, el
       texto y el formato.
     * **text_rows**: Define una lista de textos estáticos, que se escriben
@@ -218,12 +218,11 @@ Este archivo definirá los siguientes elementos:
 
 Nota: Para referencia de las definiciones, ver la documentación del módulo [XlsxWriter](http://xlsxwriter.readthedocs.io/)
 
-# Construcción de la cadena Dsn según datasource
+## Construcción de la cadena Dsn según datasource
 
   * SQL Server: "DRIVER={SQL Server};SERVER=<<server>>;DATABASE=<<database>>;UID=<<usuario>>;PWD=<<password>>" 
 
-
-# Primeros pasos
+## Primeros pasos
 
 Para entender el funcionamiento de esta herramienta, vamos a imaginar el
 siguiente escenario: Tenemos un servidor SQL Server y deseamos de
@@ -342,7 +341,7 @@ preconfiguraralos en un archivo así:
 
 `autoxls export.json -k "{'server': 'servidor', 'user': 'miusuario', 'passw': 'micontraseña'}"`
 
-# Opciones de impresión
+## Opciones de impresión
 
 Para el objeto `sheet` se puede definir el nodo hijo, `print` que configura
 varias opciones para el manejo de la impresión de la planilla:
@@ -452,7 +451,7 @@ impresora
   impresión, tanto a lo ancho como a lo largo. Por defecto se imprime 1x1.
  
  
-# Ejecución
+## Ejecución
 
 ```bash
 
@@ -481,7 +480,7 @@ argumentos opcionales:
 ```
 
 
-# Niveles de log
+## Niveles de log
 
 Utilizar el parámetro `-n` o `--loglevel` para indicar el nivel de información
 que mostrará la herramienta. Por defecto el nivel es NONE, que no mustra
@@ -508,5 +507,3 @@ CRITICAL    | Errores serios, el programa no puede continuar
 
 #### Version 1.0.1 - 2017-01-01
 * Fix en el objeto "Table" y se mantiene orden original de los campos de la tabla
-    
-
