@@ -444,6 +444,14 @@ impresora
   **Atención**: No hay forma de configurar un valor de ajuste "automático",
   este dato, en realidad es un valor que calcula el Excel.
 
+* **`center_horizontally`** y **`center_vertically`**: Para configurar si el
+  contenido se va a centrar tanto horizontal como verticalmente. Por defecto
+  `false` en ambos casos.
+
+* **`fit_to_pages`**: Para ajustar una cierta cantidad de páginas en el area de
+  impresión, tanto a lo ancho como a lo largo. Por defecto se imprime 1x1.
+ 
+ 
 # Ejecución
 
 ```bash
