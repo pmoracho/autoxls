@@ -344,23 +344,23 @@ preconfiguraralos en un archivo así:
 
 # Opciones de impresión
 
-Para el objeto `sheet` se puede definir el nodo hijo `print` que configura
+Para el objeto `sheet` se puede definir el nodo hijo, `print` que configura
 varias opciones para el manejo de la impresión de la planilla:
 
 ```javascript
-          "print": {
-              "landscape": false,
-              "paper": 9,
-              "margins": [0.7,0.7,0.75,0.75],
-              "header": ["&C&A",],
-              "footer": ["&L&F &R&P de &N",],
-              "grid": true,
-              "area": ["FR","FC","ER","EC"],
-              "scale": 70,
-              "fit_to_pages": [0, 1],
-              "center_horizontally": false,
-              "center_vertically": false
-          },
+"print": {
+  "landscape": false,
+  "paper": 9,
+  "margins": [0.7,0.7,0.75,0.75],
+  "header": ["&C&A",],
+  "footer": ["&L&F &R&P de &N",],
+  "grid": true,
+  "area": ["FR","FC","ER","EC"],
+  "scale": 70,
+  "fit_to_pages": [0, 1],
+  "center_horizontally": false,
+  "center_vertically": false
+},
 ```
 
 * **`landscape`**: `true`, para configurar la orientación apaisada, la opción
@@ -414,12 +414,12 @@ varias opciones para el manejo de la impresión de la planilla:
 | 40	| German Std Fanfold    | 	8 1/2 x 12 in       |
 | 41	| German Legal Fanfold  | 	8 1/2 x 13 in       |
 
-(*) no todos estos valores estarán disponibles siempre ya que dependen de la
+(*) no todos estos valores estarán disponibles siempre, ya que dependen de la
 impresora
 
 
-* **`margins`***: Una lista  del tipo `[left, right, top, bottom]` cada unidad
-  expresada en pulgadas 
+* **`margins`**: Una lista  del tipo `[left, right, top, bottom]` cada unidad
+  está expresada en pulgadas.
 
 * **`header`** y **`footer`**: Para definir el encabezado y pie de página. En
   cada caso se trata de una lista del tipo `[texto, opciones]`. `texto` es una
@@ -427,21 +427,31 @@ impresora
   información consultar en: [The Worksheet Class (Page
   Setup)](https://xlsxwriter.readthedocs.io/page_setup.html)
 
-* **`grid`**: Para establecer la impresión de la grilla de fondo.
+* **`grid`**: Para establecer la impresión de la grilla de fondo. Por defecto `false`
 
-* **`area`**: Para establecer el área de impresión. Hay do formas de
-  configurara esto:
-    - Mediante la cadena **`"auto"`** dónde el área se calcula automáticamente
+* **`area`**: Para establecer el área de impresión. Hay dos formas de
+  configurar esto:
+
+    - Mediante la cadena **`auto`** dónde el área se calcula automáticamente
       para cubrir todo el contenido generado. Esta debiera ser la configuración
-      más común
+      más común.
     - Mediante una lista de formato: `[first_row, first_col, last_row, last_col]`
-      dónde deberemos establecer nosotros la coordenadas del área.
+      dónde deberemos establecer nosotros la coordenadas del área. El formato es
+      en número de fila o columna 
 
 * **`scale`**: Para definir el escalado del contenido al imprimir, definido
   como porcentaje de aumento o reducción, los valores válidos van de 10 a 400.
   **Atención**: No hay forma de configurar un valor de ajuste "automático",
   este dato, en realidad es un valor que calcula el Excel.
 
+* **`center_horizontally`** y **`center_vertically`**: Para configurar si el
+  contenido se va a centrar tanto horizontal como verticalmente. Por defecto
+  `false` en ambos casos.
+
+* **`fit_to_pages`**: Para ajustar una cierta cantidad de páginas en el area de
+  impresión, tanto a lo ancho como a lo largo. Por defecto se imprime 1x1.
+ 
+ 
 # Ejecución
 
 ```bash
