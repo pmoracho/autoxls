@@ -370,24 +370,24 @@ varias opciones para el manejo de la impresión de la planilla:
 
 | Index | Paper format	        | Paper size            |
 |------ | --------------------  | --------------------- |
-| 0	    | Printer default	    | Printer default       |
-| 1	    | Letter	            | 8 1/2 x 11 in         |
-| 2	    | Letter                | Small	8 1/2 x 11 in   |
-| 3	    | Tabloid	            | 11 x 17 in            |
-| 4	    | Ledger	            | 17 x 11 in            |
-| 5	    | Legal	                | 8 1/2 x 14 in         |
-| 6	    | Statement	            | 5 1/2 x 8 1/2 in      |
-| 7	    | Executive	            | 7 1/4 x 10 1/2 in     |
-| 8	    | A3	                | 297 x 420 mm          |
-| 9	    | A4	                | 210 x 297 mm          |
+| 0	 | Printer default	| Printer default       |
+| 1	| Letter	        | 8 1/2 x 11 in         |
+| 2	| Letter                | Small	8 1/2 x 11 in   |
+| 3	| Tabloid	        | 11 x 17 in            |
+| 4	| Ledger	        | 17 x 11 in            |
+| 5	| Legal	                | 8 1/2 x 14 in         |
+| 6	| Statement	        | 5 1/2 x 8 1/2 in      |
+| 7	| Executive	        | 7 1/4 x 10 1/2 in     |
+| 8	| A3	                | 297 x 420 mm          |
+| 9	| A4	                | 210 x 297 mm          |
 | 10	| A4                    | Small	210 x 297 mm    |
 | 11	| A5	                | 148 x 210 mm          |
 | 12	| B4	                | 250 x 354 mm          |
 | 13	| B5	                | 182 x 257 mm          |
 | 14	| Folio	                | 8 1/2 x 13 in         |
-| 15	| Quarto	            | 215 x 275 mm          |
-| 16	| —	                    | 10x14 in              |
-| 17	| —	                    | 11x17 in              |
+| 15	| Quarto	        | 215 x 275 mm          |
+| 16	| —	                | 10x14 in              |
+| 17	| —	                | 11x17 in              |
 | 18	| Note	                | 8 1/2 x 11 in         |
 | 19	| Envelope 9            | 3 7/8 x 8 7/8         |
 | 20	| Envelope 10           | 10 4 1/8 x 9 1/2      |
@@ -406,12 +406,12 @@ varias opciones para el manejo de la impresión de la planilla:
 | 33	| Envelope B4	        | 250 x 353 mm          |
 | 34	| Envelope B5	        | 176 x 250 mm          |
 | 35	| Envelope B6	        | 176 x 125 mm          |
-| 36	| Envelope	            | 110 x 230 mm          |
-| 37	| Monarch	            | 3.875 x 7.5 in        |
-| 38	| Envelope	            | 3 5/8 x 6 1/2 in      |
-| 39	| Fanfold	            | 14 7/8 x 11 in        |
-| 40	| German Std Fanfold    | 	8 1/2 x 12 in       |
-| 41	| German Legal Fanfold  | 	8 1/2 x 13 in       |
+| 36	| Envelope	        | 110 x 230 mm          |
+| 37	| Monarch	        | 3.875 x 7.5 in        |
+| 38	| Envelope	        | 3 5/8 x 6 1/2 in      |
+| 39	| Fanfold	        | 14 7/8 x 11 in        |
+| 40	| German Std Fanfold    | 8 1/2 x 12 in         |
+| 41	| German Legal Fanfold  | 8 1/2 x 13 in         |
 
 (*) no todos estos valores estarán disponibles siempre, ya que dependen de la
 impresora
