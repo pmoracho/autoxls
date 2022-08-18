@@ -61,6 +61,9 @@ class Engine():
 
 	def __init__(self, jsonfile, keywords=None, logging=None):
 		"""__init__."""
+
+		info("Inicializando engine...")
+
 		self.inputfile 			= jsonfile
 		self.active_workbook 	= None
 		self.active_worksheet	= None
@@ -70,12 +73,13 @@ class Engine():
 		self.datasources		= {}
 		self.regex				= ""
 		self.now 				= datetime.datetime.now()
-		
+
 		self.fr					= 9999999
 		self.fc					= 9999999
 		self.er					= 0
 		self.ec					= 0
 
+		info("Cargando keywords...")
 		keywords["Now"] 		= self.now.strftime("%Y-%m-%d %H:%M:%S")
 		self.keywords 			= dict((("<<%s>>" % key), value) for key, value in keywords.items())
 
@@ -84,6 +88,8 @@ class Engine():
 
 		try:
 			with open(self.inputfile, "r", encoding='utf8') as json_file:
+
+				info("Cargando keywords...")
 				self.json_data = json.load(json_file)
 
 				# Verificar los keywords del template que no estuvieran definidos
@@ -94,12 +100,15 @@ class Engine():
 					raise ValueError("Faltan definir las siguientes keywords: %s" % keys_faltantes)
 
 				# Carga de los Formatos
+				info("Cargando formatos...")
 				self.formatos = Formatos(self.json_data.get("formats", {}))
 
 				# Carga de los Formatos condicionales
+				info("Cargando formatos condicionales...")
 				self.conditionals = self.json_data.get("conditional")
 
 				# Carga de los Data sources
+				info("Cargando datasources...")
 				dss = self.json_data.get("datasources", [])
 				for each in dss:
 					properties = dss[each]
@@ -292,7 +301,7 @@ class Engine():
 				self.active_worksheet.write_blank(at, '', self.formatos.get(format))
 
 		self._setup_boundaries_at(at)
-		
+
 	def insert_formula(self, objeto):
 		"""insert_formula. Inserta una formula."""
 
@@ -441,7 +450,7 @@ class Engine():
 
 					if altcolor:
 						color = altcolor[1] if row % 2 == 0 else altcolor[0]
-						list_fmt.append(color)					
+						list_fmt.append(color)
 
 					list_fmt.append(cellformat)
 
@@ -449,7 +458,7 @@ class Engine():
 
 					fmt = self.formatos.new(sha256(str(cellfmt)), cellfmt)
 					self.active_worksheet.write(row, col, cellvalue, fmt)
-					
+
 					col = col + 1
 
 
@@ -467,7 +476,7 @@ class Engine():
 				self.info("Creando subtotales...")
 				for subtotal in subtotales:
 					at = subtotal.get("at")
-					
+
 					# self._setup_boundaries_at(at)
 
 					fmt_formula = self.formatos.get(subtotal.get("format"))
@@ -479,7 +488,7 @@ class Engine():
 						if at == "END":
 							at = xl_range(row, data_col + eachcol - 1, row, data_col + eachcol - 1)
 							self._setup_boundaries_rc(row, data_col + eachcol - 1)
-							
+
 						self.active_worksheet.write_formula(at, formula, fmt_formula, -342047.61)
 
 			"""
@@ -548,14 +557,14 @@ class Engine():
 											})
 
 			self._setup_boundaries_rc(row + len(data["rows"]), col + len(data["colnames"]) - 1)
-											
+
 	def set_print_options(self, objeto):
 		"""set_print_options: Configura opciones de impresión."""
 
 		self.info("Configuración de opciones de impresión")
-		
+
 		self.active_worksheet.set_paper(objeto.get("paper", 0))
-		
+
 		l, r, t, b = objeto.get("margins", [0.7,0.7,0.75,0.75])
 		self.active_worksheet.set_margins(l, r, t, b)
 
@@ -599,7 +608,7 @@ class Engine():
 		self.active_worksheet.set_print_scale(objeto.get("scale", 100))
 
 		pass
-													
+
 
 	def _normalize_filename(self, filename):
 		"""_normalize_filename: Generates an slightly worse ASCII-only slug.
@@ -625,4 +634,4 @@ class Engine():
 		self.fc		= col if col < self.fc else self.fc
 		self.er		= row if row > self.er else self.er
 		self.ec		= col if col > self.ec else self.ec
-		
+
